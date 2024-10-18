@@ -1,0 +1,122 @@
+/* Reset de margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: var(--white);
+    background-color: var(--dark-green);
+    overflow: hidden;
+}
+
+header {
+    background-color: var(--dark-green);
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo img {
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.nav-actions a, .nav-actions button {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-actions a:hover, .nav-actions button:hover {
+    color: var(--light-green);
+}
+
+.nav-actions button img {
+    height: 20px;
+}
+
+/* Estilo da seção hero de quiz-selector */
+.quiz-selector-hero {
+    background: url('../images/background.png') no-repeat center center/cover;
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    animation: moveBackground 30s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.quiz-container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.quiz-category-buttons {
+    display: flex;
+    justify-content: space-between; /* Alinha os botões em linha */
+    gap: 15px;
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    flex: 1; /* Todos os botões terão o mesmo tamanho */
+    max-width: 180px; /* Limita o tamanho dos botões */
+}
+
+.btn-primary:hover {
+    background-color: var(--light-green);
+    transform: scale(1.05);
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Tackle Trivia</title>
+    <link rel="stylesheet" href="../common/styles.css">
+    <link rel="stylesheet" href="resumo.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Tackle Trivia">
+            </div>
+            <div class="nav-actions">
+                <a href="../dashboard/dashboard.html">Dashboard</a>
+                <a href="#" id="logout-btn">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="quiz-summary" class="quiz-summary">
+        <h2>Resumo do Quiz</h2>
+        <div id="summary-container">
+            <!-- O resumo das perguntas e respostas será gerado dinamicamente -->
+        </div>
+    
+        <!-- Botões de ação -->
+        <div class="quiz-actions">
+            <button id="ranking-btn" class="btn-primary">Ver Ranking</button>
+            <button id="another-quiz-btn" class="btn-primary">Fazer Outro Quiz</button>
+        </div>
+    </section>
+
+    <script src="resumo.js"></script>
+</body>
+</html>

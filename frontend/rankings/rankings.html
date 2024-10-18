@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking - Tackle Trivia</title>
+    <link rel="stylesheet" href="rankings.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Tackle Trivia">
+            </div>
+            <div class="nav-actions">
+                <a href="../dashboard/dashboard.html">Dashboard</a>
+                <a href="#" id="logout-btn">Logout</a>
+                <button id="theme-toggle" class="icon-button">
+                    <img id="theme-icon" src="../images/moon.png" alt="Modo Escuro">
+                </button>
+                <button id="lang-toggle" class="icon-button">
+                    <img id="flag-icon" src="../images/england.png" alt="Trocar Idioma">
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="ranking-hero">
+            <div class="ranking-content">
+                <h2 id="ranking-title">Ranking</h2>   
+                <ul class="ranking-list">
+                    <!-- Itens do ranking serão gerados dinamicamente aqui -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="rankings.js"></script>
+</body>
+</html>

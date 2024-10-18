@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Tackle Trivia</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+</head>
+<body class="light-mode">
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Tackle Trivia">
+            </div>
+            <div class="nav-actions">
+                <a href="#" id="manage-account-btn">Gerir Conta</a>
+                <a href="#" id="logout-btn">Logout</a>
+                <button id="theme-toggle" class="icon-button">
+                    <img id="theme-icon" src="../images/moon.png" alt="Modo Escuro">
+                </button>
+                <button id="lang-toggle" class="icon-button">
+                    <img id="flag-icon" src="../images/england.png" alt="Trocar Idioma">
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <aside class="sidebar">
+        <ul>
+            <li><a href="#" id="start-quiz-btn">Quiz</a></li>
+            <li><a href="#" id="view-rankings-btn">Ranking</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <section class="dashboard-hero">
+            <div class="dashboard-content">
+                <h2>Bem-vindo ao Dashboard, <span id="user-name">Utilizador!</span></h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3 for="total-quizzes">Total de Quizzes</h3>
+                        <p id="total-quizzes">10</p>
+                    </div>
+                    <div class="card">
+                        <h3 for="current-ranking">Seu Ranking Atual</h3>
+                        <p id="current-ranking">#1</p>
+                    </div>
+                    <div class="card">
+                        <h3 for="total-points">Total de Pontos</h3>
+                        <p id="total-points">120</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

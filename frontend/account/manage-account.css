@@ -1,0 +1,88 @@
+/* Estilos Globais */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #002244;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar .logo img {
+    max-width: 150px;
+}
+
+.nav-actions {
+    margin-left: auto; /* Alinha a seção da direita */
+    display: flex;
+    align-items: center;
+}
+
+.nav-actions a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+main {
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.account-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.account-form {
+    margin-bottom: 40px;
+}
+
+h3 {
+    color: #002244;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #004080;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0059b3;
+}

@@ -1,0 +1,137 @@
+/* Reset de margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    color: var(--white);
+    background-color: var(--dark-green);
+    overflow: hidden;
+}
+
+header {
+    background-color: var(--dark-green);
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo img {
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.nav-actions a {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-actions a:hover {
+    color: var(--light-green);
+}
+
+/* Quiz Hero Section */
+.quiz-hero {
+    background: url('../images/background.png') no-repeat center center/cover;
+    height: 100vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    animation: moveBackground 30s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.quiz-container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.quiz-question {
+    margin-bottom: 20px;
+}
+
+.quiz-question h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.quiz-option {
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.quiz-option:hover {
+    background-color: var(--light-green);
+    transform: scale(1.05);
+}
+
+.quiz-option.selected {
+    background-color: var(--light-green);
+    transform: scale(1.05);
+    border: 2px solid var(--primary-green); /* Adiciona um destaque visual ao botão selecionado */
+}
+
+.quiz-footer {
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--light-green);
+    transform: scale(1.05);
+}

@@ -1,0 +1,188 @@
+/* Estilos globais */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar e Cabeçalho */
+header {
+    background-color: #002244;
+    padding: 15px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo img {
+    max-width: 150px;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+}
+
+.nav-actions a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+    padding: 10px 15px;
+    background-color: #004080;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-actions a:hover {
+    background-color: #0059b3;
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.icon-button img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.icon-button:hover img {
+    transform: scale(1.2);
+}
+
+/* Conteúdo do Ranking */
+main {
+    padding: 40px 20px;
+}
+
+.ranking-hero {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ranking-content {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #f9fafb;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.ranking-title {
+    font-size: 2.5rem;
+    color: #004080;
+    margin-bottom: 30px;
+}
+
+/* Lista do Ranking */
+.ranking-list {
+    list-style: none;
+    padding: 0;
+}
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.ranking-item:hover {
+    background-color: #f0f4f8;
+    transform: translateY(-3px);
+}
+
+.ranking-position {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    width: 50px;
+    text-align: center;
+}
+
+.player-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #004080;
+    flex-grow: 1;
+    text-align: left;
+    margin-left: 20px;
+}
+
+.player-score {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Modo Escuro */
+body.dark-mode {
+    background-color: #1a1a2e;
+    color: #ffffff;
+}
+
+body.dark-mode .ranking-hero {
+    background-color: #121212;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .ranking-content {
+    background-color: #242424;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .ranking-item {
+    background-color: #333;
+    color: #fff;
+}
+
+body.dark-mode .ranking-item:hover {
+    background-color: #444;
+}
+
+body.dark-mode .nav-actions a {
+    background-color: #004080;
+}
+
+body.dark-mode .nav-actions a:hover {
+    background-color: #0059b3;
+}
+
+body.dark-mode .player-score {
+    color: #76d7c4;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    .ranking-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .player-score {
+        margin-top: 10px;
+    }
+
+    .player-name {
+        margin-left: 0;
+    }
+}

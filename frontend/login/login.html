@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Tackle Trivia</title>
+    <link rel="stylesheet" href="../common/styles.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../images/logo.png" alt="Logo do Tackle Trivia">
+            </div>
+            <div class="nav-links">
+                <a href="../index/index.html">Home</a>
+                <a href="../register/register.html">Register</a>
+                <button id="lang-toggle" style="background: none; border: none; cursor: pointer;">
+                    <img src="../images/england.png" alt="English" id="flag">
+                </button>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="login-hero">
+            <div class="login-content">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" name="username" required>
+                    
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+
+                    <p><a href="../forgot-password/forgot-password.html" class="forgot-password-link">Forgot Password?</a></p>
+                    
+                    <button type="submit" class="btn-primary">Login</button>
+                </form>
+                <p class="register-link">Don't have an account? <a href="../register/register.html">Register here</a>.</p>
+            </div>
+        </section>
+    </main>
+    <script src="../common/script.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

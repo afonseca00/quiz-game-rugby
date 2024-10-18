@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Tackle Trivia</title>
+    <link rel="stylesheet" href="../common/styles.css">
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../images/logo.png" alt="Tackle Trivia">
+            </div>
+            <div class="nav-actions">
+                <a href="../dashboard/dashboard.html">Dashboard</a>
+                <a href="#" id="logout-btn">Logout</a>
+                <button id="theme-toggle" class="icon-button">
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="quiz-hero">
+            <div class="quiz-container">
+                <h2>Quiz 3.0</h2>
+                <div class="quiz-question">
+                    <h3>Questão <span id="current-question">1</span> de 5</h3>
+                    <p id="question-text">Quem venceu o Campeonato do Mundo de Rugby de 2019?</p>
+                </div>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-index="0">Nova Zelândia</button>
+                    <button class="quiz-option" data-index="1">Inglaterra</button>
+                    <button class="quiz-option" data-index="2">África do Sul</button>
+                    <button class="quiz-option" data-index="3">Austrália</button>
+                </div>
+                <div class="quiz-footer">
+                    <button id="prev-question-btn" class="btn-primary">Questão Anterior</button>
+                    <button id="next-question-btn" class="btn-primary">Próxima Questão</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Resumo -->
+        <section id="quiz-summary" class="quiz-summary hidden">
+            <h2>Resumo do Quiz</h2>
+            <div id="summary-container"></div>
+            <button id="retake-quiz-btn" class="btn-primary">Tentar Novamente</button>
+        </section>
+    </main>
+
+    <script src="quiz.js"></script>
+</body>
+</html>

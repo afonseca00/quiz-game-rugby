@@ -1,0 +1,10 @@
+Encontrar ip atual = cat /etc/resolv.conf | grep nameserver | awk '{ print $2 }'
+fgxy caqs uesr xbey
+acertar horas: sudo ntpdate ntp.ubuntu.com
+
+
+SELECT * FROM users;
+SHOW TABLES;
+DESCRIBE questions;
+DESCRIBE scores;
+DESCRIBE users;

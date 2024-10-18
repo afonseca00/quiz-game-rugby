@@ -1,0 +1,184 @@
+/* Reset de margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo básico do corpo */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Remove a rolagem */
+    font-family: 'Roboto', sans-serif;
+    color: var(--white);
+    background-color: var(--dark-green);
+}
+
+/* Estilo básico do logotipo */
+.logo img {
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+/* Ajustes para diferentes tamanhos de tela */
+@media (max-width: 768px) {
+    .logo img {
+        max-width: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        max-width: 40px;
+    }
+}
+
+/* Estilo do cabeçalho */
+header {
+    background-color: var(--dark-green);
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a, .nav-links button {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 1.25rem;
+    padding: 0.625rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover, .nav-links button:hover {
+    color: var(--light-green);
+}
+
+.nav-links button img {
+    height: 1.25rem;
+}
+
+/* Estilo da seção hero */
+.about-hero {
+    background: url('../images/background.png') no-repeat center center/cover;
+    height: 90vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 1.25rem;
+    animation: moveBackground 30s linear infinite;
+    overflow: hidden;
+}
+
+@keyframes moveBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.hero-content {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1.25rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+    max-width: 75rem;
+    margin: 0 auto;
+}
+
+/* Estilo do container de texto e imagem */
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.625rem; /* Diminuído o espaço entre os elementos */
+    flex-wrap: wrap;
+}
+
+.about-text {
+    flex: 1;
+    margin-right: 0.625rem; /* Diminuído o espaço à direita */
+    text-align: left;
+    min-width: 23.125rem; /* Adicionado para evitar que o texto seja muito estreito */
+    margin: 0 auto; /* Centraliza automaticamente */
+}
+
+.about-image {
+    flex: 1;
+    text-align: right;
+    margin-left: 0.625rem; /* Aproximando a imagem da borda esquerda */
+    min-width: 15.625rem; /* Adicionado para evitar que a imagem seja muito estreita */
+    margin: 0 auto; /* Centraliza automaticamente */
+}
+
+.about-image img {
+    max-width: 100%;
+    border-radius: 0.625rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+    }
+
+    .about-text, .about-image {
+        margin: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .about-image img {
+        max-width: 75%;
+        margin: 0 auto;
+    }
+
+    h2 {
+        font-size: 1.8rem; /* Diminuído o tamanho do título mais cedo */
+        margin-bottom: 0.9375rem;
+    }
+
+    p {
+        font-size: 0.95rem; /* Diminuído o tamanho do texto mais cedo */
+        margin-bottom: 0.625rem; /* Menor espaçamento entre os parágrafos */
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 0.85rem; /* Diminuído ainda mais o tamanho do texto para dispositivos menores */
+        margin-bottom: 0.5rem;
+    }
+
+    .about-image img {
+        max-width: 90%;
+    }
+}
