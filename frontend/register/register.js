@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             console.log('Tentando registrar com dados:', { username, email, fullName });
 
-            const response = await fetch('http://localhost:5000/api/auth/register', {
+            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

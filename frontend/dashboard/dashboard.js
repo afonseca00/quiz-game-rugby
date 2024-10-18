@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Chama o backend para obter as estatísticas do usuário
     try {
-        const response = await fetch(`http://localhost:5000/api/quiz/user-stats?user_id=${userId}`, {
+        const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/user-stats?user_id=${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('total-points').innerText = data.total_score;
 
             // Ranking pode ser obtido a partir de um endpoint específico para ranking ou calculado no backend
-            const rankingResponse = await fetch(`http://localhost:5000/api/quiz/top-scores`);
+            const rankingResponse = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/top-scores`);
             const rankingData = await rankingResponse.json();
 
             const userRank = rankingData.findIndex(item => item.username === userName) + 1;
