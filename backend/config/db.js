@@ -19,12 +19,4 @@ db.connect((err) => {
   console.log('Ligado a base de dados MySQL.'); // Mensagem de sucesso
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err.message);
-    return;
-  }
-  console.log('Conectado ao banco de dados MySQL.');
-});
-
 module.exports = db; // Exporta a conexão da base de dados para uso em outros módulos
