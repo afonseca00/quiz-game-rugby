@@ -1,7 +1,7 @@
 require('dotenv').config(); // Carrega variáveis de ambiente do arquivo .env
 const express = require('express'); // Framework web para Node.js
 const cors = require('cors'); // Middleware para habilitar CORS
-
+const path = require('path'); // Módulo para trabalhar com caminhos de arquivos
 const authRoutes = require('./routes/authRoutes'); // Rotas de autenticação
 const quizRoutes = require('./routes/quizRoutes'); // Rotas do quiz
 const errorMiddleware = require('./middleware/errorMiddleware'); // Middleware de tratamento de erros
@@ -14,7 +14,15 @@ app.use(cors()); // Habilita CORS para todas as rotas
 app.use(express.json()); // Prepara parsing de JSON no corpo das requisições
 app.use(express.urlencoded({ extended: true })); // Prepara parsing de URL-encoded no corpo das requisições
 
-// Rotas
+// Servir arquivos estáticos da pasta 'public'
+app.use(express.static(path.join(__dirname, '../public')));
+
+// Rota raiz para servir o index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
+// Rotas da API
 app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
 
