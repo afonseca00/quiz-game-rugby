@@ -1,6 +1,7 @@
 require('dotenv').config(); // Carrega variáveis de ambiente do arquivo .env
 const express = require('express'); // Framework web para Node.js
 const cors = require('cors'); // Middleware para habilitar CORS
+
 const authRoutes = require('./routes/authRoutes'); // Rotas de autenticação
 const quizRoutes = require('./routes/quizRoutes'); // Rotas do quiz
 const errorMiddleware = require('./middleware/errorMiddleware'); // Middleware de tratamento de erros
