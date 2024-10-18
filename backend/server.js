@@ -1,7 +1,7 @@
-const path = require('path');
+require('dotenv').config(); // Carrega variáveis de ambiente do arquivo .env
 const express = require('express');
-require('dotenv').config();
 const cors = require('cors');
+const path = require('path'); // Importa o módulo path para manipular caminhos
 const authRoutes = require('./routes/authRoutes');
 const quizRoutes = require('./routes/quizRoutes');
 const errorMiddleware = require('./middleware/errorMiddleware');
@@ -14,17 +14,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir arquivos estáticos da pasta 'frontend'
-app.use(express.static(path.join(__dirname, 'frontend')));
+// Configura a pasta de arquivos estáticos
+app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Rota raiz para servir o arquivo index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'index', 'index.html'));
-});
-
-// Rotas da API
+// Rotas para a API
 app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
+
+// Serve o arquivo index.html para a raiz
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index/index.html'));
+});
 
 // Middleware de tratamento de erros
 app.use(errorMiddleware);
