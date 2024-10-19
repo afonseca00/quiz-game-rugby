@@ -10,7 +10,9 @@ const db = require('./config/db');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net', // Permitir requisições do seu domínio
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -21,9 +23,9 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/auth', authRoutes);
 app.use('/api/quiz', quizRoutes);
 
-// Serve o arquivo index.html para a raiz
+// Redireciona a raiz para a página principal
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index/index.html'));
+  res.redirect('/index/index.html'); // Redireciona para o index.html
 });
 
 // Fallback para outras rotas desconhecidas - para que o roteamento do frontend funcione corretamente
