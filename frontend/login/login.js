@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Exibir mensagem de sucesso e redirecionar o usuário
                 alert(result.message);
-                window.location.href = '../dashboard/dashboard.html'; // Redirecionar para dashboard
+               // window.location.href = '../dashboard/dashboard.html'; // Redirecionar para dashboard
             } else {
                 // Exibir mensagem de erro se o login falhar
                 alert(`Erro: ${result.message}`); // Correção no template literal
