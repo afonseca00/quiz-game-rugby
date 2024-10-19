@@ -26,6 +26,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index/index.html'));
 });
 
+// Fallback para outras rotas desconhecidas - para que o roteamento do frontend funcione corretamente
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index/index.html'));
+});
+
 // Middleware de tratamento de erros
 app.use(errorMiddleware);
 
