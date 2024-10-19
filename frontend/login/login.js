@@ -53,14 +53,11 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Atualizar idioma baseado no localStorage ou padrão
     const currentLang = localStorage.getItem('lang') || 'pt';
     document.documentElement.lang = currentLang;
 
-    // Atualizar a página com o idioma atual
     updatePageLanguage(currentLang);
 
-    // Adicionar evento de clique para alternar idioma
     document.getElementById('lang-toggle').addEventListener('click', () => {
         const newLang = document.documentElement.lang === 'pt' ? 'en' : 'pt';
         localStorage.setItem('lang', newLang);
@@ -70,18 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Função para manipular o evento de submissão do formulário de login
     document.getElementById('login-form').addEventListener('submit', async (e) => {
-        e.preventDefault(); // Prevenir o comportamento padrão do formulário
+        e.preventDefault();
 
-        // Capturar os dados do formulário
         const identifier = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
         try {
-            // Fazer uma requisição para o backend
-            const response = await fetch('http://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/login', {
+            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ identifier, password })
             });
@@ -89,17 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
-                // Armazenar o token JWT, nome do usuário e ID do usuário no localStorage
-                localStorage.setItem('token', result.token);
-                localStorage.setItem('userName', result.userName); // Certifique-se de que o userName está armazenado
-                localStorage.setItem('userId', result.userId); // Certifique-se de armazenar o userId
+                // Verificar se o userId está presente e armazená-lo no localStorage
+                if (result.userId) {
+                    localStorage.setItem('token', result.token);
+                    localStorage.setItem('userName', result.userName);
+                    localStorage.setItem('userId', result.userId); // Certifique-se de armazenar o userId
+                    console.log(`userId armazenado: ${result.userId}`);
+                } else {
+                    console.error('userId não encontrado na resposta do backend');
+                }
 
-                // Exibir mensagem de sucesso e redirecionar o usuário
                 alert(result.message);
                 window.location.href = '../dashboard/dashboard.html'; // Redirecionar para dashboard
             } else {
-                // Exibir mensagem de erro se o login falhar
-                alert(`Erro: ${result.message}`); // Correção no template literal
+                alert(`Erro: ${result.message}`);
             }
         } catch (error) {
             console.error('Erro ao tentar fazer login:', error);
