@@ -89,17 +89,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
+                console.log('Login realizado com sucesso:', result); // Verificar o que é retornado
+
                 // Armazenar o token JWT, nome do usuário e ID do usuário no localStorage
                 localStorage.setItem('token', result.token);
-                localStorage.setItem('userName', result.userName); // Certifique-se de que o userName está armazenado
-                localStorage.setItem('userId', result.userId); // Certifique-se de armazenar o userId
+                localStorage.setItem('userName', result.userName);
+                localStorage.setItem('userId', result.userId); // Verifique se o userId está sendo salvo
 
-                // Exibir mensagem de sucesso e redirecionar o usuário
+                console.log('userId armazenado:', localStorage.getItem('userId'));
+
+                // Exibir mensagem de sucesso e redirecionar o usuário após atraso de 1 segundo
                 alert(result.message);
-                window.location.href = '../dashboard/dashboard.html'; // Redirecionar para dashboard
+                setTimeout(() => {
+                    window.location.href = '../dashboard/dashboard.html'; // Redirecionar após 1 segundo
+                }, 1000);
             } else {
                 // Exibir mensagem de erro se o login falhar
-                alert(`Erro: ${result.message}`); // Correção no template literal
+                alert(`Erro: ${result.message}`);
             }
         } catch (error) {
             console.error('Erro ao tentar fazer login:', error);
