@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Fazer uma requisição para o backend
-            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/login', {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -89,23 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (response.ok) {
-                console.log('Login realizado com sucesso:', result); // Verificar o que é retornado
-
                 // Armazenar o token JWT, nome do usuário e ID do usuário no localStorage
                 localStorage.setItem('token', result.token);
-                localStorage.setItem('userName', result.userName);
-                localStorage.setItem('userId', result.userId); // Verifique se o userId está sendo salvo
+                localStorage.setItem('userName', result.userName); // Certifique-se de que o userName está armazenado
+                localStorage.setItem('userId', result.userId); // Certifique-se de armazenar o userId
 
-                console.log('userId armazenado:', localStorage.getItem('userId'));
-
-                // Exibir mensagem de sucesso e redirecionar o usuário após atraso de 1 segundo
+                // Exibir mensagem de sucesso e redirecionar o usuário
                 alert(result.message);
-                setTimeout(() => {
-                    window.location.href = '../dashboard/dashboard.html'; // Redirecionar após 1 segundo
-                }, 1000);
+                window.location.href = '../dashboard/dashboard.html'; // Redirecionar para dashboard
             } else {
                 // Exibir mensagem de erro se o login falhar
-                alert(`Erro: ${result.message}`);
+                alert(`Erro: ${result.message}`); // Correção no template literal
             }
         } catch (error) {
             console.error('Erro ao tentar fazer login:', error);

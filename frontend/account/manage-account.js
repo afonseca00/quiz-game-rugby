@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
 
         try {
-            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/update-info', {
+            const response = await fetch('http://localhost:5000/api/auth/update-info', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ document.getElementById('change-password-form').addEventListener('submit', async
     }
 
     try {
-        const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/change-password', {
+        const response = await fetch('http://localhost:5000/api/auth/change-password', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

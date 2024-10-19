@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Função para buscar perguntas da API
     async function fetchQuestions(categoryId) {
         try {
-            const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/questions?category_id=${categoryId}`);
+            const response = await fetch(`http://localhost:5000/api/quiz/questions?category_id=${categoryId}`);
             const data = await response.json();
             if (response.ok) {
                 // Limita as perguntas a 5
