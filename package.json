@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha backend/test.js",
-    //"start": "node backend/server.js"
+    "start": "node backend/server.js"
   },
   "keywords": [],
   "author": "",
