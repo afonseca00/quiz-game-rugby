@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para buscar o ranking e atualizar a página
     async function fetchAndDisplayRanking() {
         try {
-            const response = await fetch('http://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/top-scores');
+            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/top-scores');
             if (!response.ok) {
                 throw new Error('Erro ao buscar o ranking.');
             }
