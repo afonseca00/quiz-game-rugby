@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Fazer uma requisição para o backend
-            const response = await fetch('http://localhost:5000/api/auth/request-password-reset', {
+            const response = await fetch('http://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/request-password-reset', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
