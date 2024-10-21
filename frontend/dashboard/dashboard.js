@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Chama o backend para obter as estatísticas do usuário
     try {
-        const response = await fetch(`http://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/user-stats?user_id=${userId}`, {
+        const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/user-stats?user_id=${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
