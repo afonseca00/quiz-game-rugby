@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/update-info', {
+            const response = await fetch('https://localhost:5000/api/auth/update-info', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
