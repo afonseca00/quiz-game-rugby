@@ -36,11 +36,20 @@ const User = {
 
   findByUsernameOrEmail: (identifier) => {
     return new Promise((resolve, reject) => {
+      console.log(`Buscando usuário com identifier: ${identifier}`);
       db.query(
         'SELECT * FROM users WHERE username = ? OR email = ?',
         [identifier, identifier],
         (err, results) => {
-          if (err) return reject(err);
+          if (err) {
+            console.error('Erro ao buscar usuário por username ou email:', err);
+            return reject(err);
+          }
+          if (!results || results.length === 0) {
+            console.log('Nenhum usuário encontrado.');
+          } else {
+            console.log('Usuário encontrado:', results[0]);
+          }
           resolve(results[0]);
         }
       );
