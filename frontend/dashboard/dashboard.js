@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     const userName = localStorage.getItem('userName'); // Obter o nome do usuário do localStorage
-    const userId = localStorage.getItem('user_id'); // Obter o user_id do localStorage
+    const userId = localStorage.getItem('userId'); // Obter o userId do localStorage
 
     // Verifica se o usuário está logado
-    if (!token) {
+    if (!token || !userId) {
         alert('Você precisa fazer login primeiro!');
         window.location.href = '../login/login.html';
         return;
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('total-points').innerText = data.total_score;
 
             // Ranking pode ser obtido a partir de um endpoint específico para ranking ou calculado no backend
-            const rankingResponse = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/top-scores`);
+            const rankingResponse = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/top-scores');
             const rankingData = await rankingResponse.json();
 
             const userRank = rankingData.findIndex(item => item.username === userName) + 1;
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateFlag(currentLang); // Define a bandeira inicial
 });
 
-// Função para atualizar o texto da página com base no idioma
+// Funções auxiliares para atualizar o idioma e o layout
 function updateLanguage(lang) {
     const userNameElement = document.getElementById('user-name');
     const logoutBtn = document.getElementById('logout-btn');
@@ -107,7 +107,6 @@ function updateLanguage(lang) {
     const manageAccountBtn = document.getElementById('manage-account-btn');
     const dashboardTitle = document.querySelector('.dashboard-content h2');
 
-    // Atualizar os textos dos botões e saudação
     if (lang === 'en') {
         dashboardTitle.innerHTML = `Welcome to the Dashboard, <span id="user-name">${userNameElement.innerText}</span>`;
         logoutBtn.innerText = 'Logout';
@@ -122,11 +121,9 @@ function updateLanguage(lang) {
         manageAccountBtn.innerText = 'Gerir Conta';
     }
 
-    // Atualizar o conteúdo dos cards do dashboard
     updateDashboardCards(lang);
 }
 
-// Função para atualizar os textos dos cards do dashboard
 function updateDashboardCards(lang) {
     const totalQuizzesCard = document.querySelector('.card h3[for="total-quizzes"]');
     const currentRankingCard = document.querySelector('.card h3[for="current-ranking"]');
@@ -143,15 +140,14 @@ function updateDashboardCards(lang) {
     }
 }
 
-// Função para atualizar a bandeira com base no idioma
 function updateFlag(lang) {
     const flagIcon = document.getElementById('flag-icon');
     
     if (lang === 'en') {
-        flagIcon.src = '../images/portugal.png'; // Trocar para a bandeira de Portugal quando o idioma é inglês
+        flagIcon.src = '../images/portugal.png'; // Bandeira de Portugal quando o idioma é inglês
         flagIcon.alt = 'Português';
     } else {
-        flagIcon.src = '../images/england.png'; // Trocar para a bandeira da Inglaterra quando o idioma é português
+        flagIcon.src = '../images/england.png'; // Bandeira da Inglaterra quando o idioma é português
         flagIcon.alt = 'English';
     }
 }
