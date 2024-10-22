@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
-    // Adiciona essas variáveis para capturar os valores do user_id e quiz_id
-    const user_id = localStorage.getItem('user_id'); 
+    // Captura os valores do user_id e quiz_id no localStorage
+    const user_id = localStorage.getItem('userId'); // Certifique-se de usar 'userId' corretamente
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
     if (!user_id || !quiz_id) {
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('user_id');
+    localStorage.removeItem('userId');
     alert('Você foi desconectado.');
     window.location.href = '../index/index.html';
 });

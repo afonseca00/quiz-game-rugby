@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/questions?category_id=${categoryId}`);
             const data = await response.json();
             if (response.ok) {
-                // Limita as perguntas a 5
                 return data.slice(0, 5); // Retorna no máximo 5 perguntas
             } else {
                 throw new Error('Erro ao carregar perguntas');
@@ -45,6 +44,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!questions || questions.length === 0) {
         return; // Sai se não houver perguntas
     }
+
+    // Salva o quiz_id no localStorage
+    const quizId = questions[0].quiz_id;
+    localStorage.setItem('quizId', quizId);  // Armazena o quiz_id no localStorage
+    console.log(`Quiz ID armazenado: ${quizId}`);
 
     // Embaralha as perguntas e limita a 5
     questions = shuffleArray(questions);
