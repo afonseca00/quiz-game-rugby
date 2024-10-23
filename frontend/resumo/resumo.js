@@ -80,15 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
         const explanation = isCorrect
-            ? ''
-            : `<p>Resposta Correta: ${q.correct_answer}</p>
-            <p>Explicação: ${q.explanation}</p>
-            <iframe width="560" height="315" 
-                src="${q.video_url ? q.video_url : 'https://www.youtube.com/embed/default_video_id'}" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    ? ''
+    : `<p>Resposta Correta: ${q.correct_answer}</p>
+       <p>Explicação: ${q.explanation}</p>
+       <iframe width="560" height="315" 
+           src="${q.video_url}" 
+           frameborder="0" 
+           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
            allowfullscreen>
-            </iframe>`;
+       </iframe>`;
         const summaryItem = `
             <div class="summary-item">
                 <h3>Questão ${index + 1}: ${q.question}</h3>
