@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../config/db'); // Importa o pool de conexões
 const bcrypt = require('bcrypt');
 
 const User = {

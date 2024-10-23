@@ -5,7 +5,7 @@ const path = require('path'); // Importa o módulo path para manipular caminhos
 const authRoutes = require('./routes/authRoutes'); // Rotas de autenticação
 const quizRoutes = require('./routes/quizRoutes'); // Rotas do quiz
 const errorMiddleware = require('./middleware/errorMiddleware'); // Middleware de tratamento de erros
-const db = require('./config/db'); // Conexão com o banco de dados
+const db = require('./config/db'); // Conexão com o pool do banco de dados (usando Promises)
 
 const app = express(); // Cria uma instância do Express
 
@@ -45,16 +45,21 @@ app.use(errorMiddleware);
 // Inicia o servidor na porta especificada nas variáveis de ambiente ou 5000
 const PORT = process.env.PORT || 5000;
 
-db.connect((err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err.message);
-    process.exit(1); // Sai do processo se houver erro na conexão com o banco de dados
-  } else {
+// Usar async/await para verificar a conexão
+(async () => {
+  try {
+    // Verifica se o pool de conexões está disponível ao tentar uma consulta simples
+    await db.query('SELECT 1');
     console.log('Conectado ao banco de dados MySQL.');
+    
+    // Inicia o servidor após a verificação da conexão
     app.listen(PORT, () => {
       console.log(`Servidor a trabalhar na porta ${PORT}`);
     });
+  } catch (err) {
+    console.error('Erro ao conectar ao banco de dados:', err.message);
+    process.exit(1); // Sai do processo se houver erro na conexão com o banco de dados
   }
-});
+})();
 
 module.exports = app; // Exporta a instância do Express para testes
