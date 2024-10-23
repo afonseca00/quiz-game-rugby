@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryItem.appendChild(correctAnswer);
 
         const explanation = document.createElement('p');
-        explanation.textContent = Explicação: `${q.explanation}`;
+        explanation.textContent = `Explicação: ${q.explanation}`;
         summaryItem.appendChild(explanation);
 
         // Se houver um vídeo, criar o iframe e adicioná-lo
