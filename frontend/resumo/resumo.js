@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
-    // Captura os valores do user_id e quiz_id no localStorage
-    const user_id = localStorage.getItem('userId'); // Certifique-se de usar 'userId' corretamente
+    // Adiciona essas variáveis para capturar os valores do user_id e quiz_id
+    const user_id = localStorage.getItem('userId'); 
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
     if (!user_id || !quiz_id) {
@@ -75,55 +75,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryContainer.innerHTML = '';
 
-   // Função para gerar o resumo das perguntas e respostas
-   questions.forEach((q, index) => {
-    const isCorrect = selectedAnswers[index] === q.correct_answer;
-    const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
-
-    // Criação do container de resumo
-    const summaryItem = document.createElement('div');
-    summaryItem.classList.add('summary-item');
-
-    // Título da questão
-    const questionTitle = document.createElement('h3');
-    questionTitle.textContent = `Questão ${index + 1}: ${q.question}`;
-    summaryItem.appendChild(questionTitle);
-
-    // Resposta do usuário
-    const userAnswer = document.createElement('p');
-    userAnswer.textContent = `Sua Resposta: ${selectedAnswers[index]}`;
-    summaryItem.appendChild(userAnswer);
-
-    // Indicação de correto ou incorreto
-    const result = document.createElement('p');
-    result.textContent = resultText;
-    summaryItem.appendChild(result);
-
-    // Se a resposta estiver incorreta, mostrar a resposta correta e a explicação
-    if (!isCorrect) {
-        const correctAnswer = document.createElement('p');
-        correctAnswer.textContent = `Resposta Correta: ${q.correct_answer}`;
-        summaryItem.appendChild(correctAnswer);
-
-        const explanation = document.createElement('p');
-        explanation.textContent = `Explicação: ${q.explanation}`;
-        summaryItem.appendChild(explanation);
-
-        // Se houver um vídeo, criar o iframe e adicioná-lo
-        if (q.video_url) {
-            const videoIframe = document.createElement('iframe');
-            videoIframe.width = '560';
-            videoIframe.height = '315';
-            videoIframe.src = q.video_url;
-            videoIframe.frameBorder = '0';
-            videoIframe.allowFullscreen = true;
-            summaryItem.appendChild(videoIframe);
-        }
-    }
-
-    // Adiciona o item ao container do resumo
-    summaryContainer.appendChild(summaryItem);
-});
+    // Gerar o resumo das perguntas e respostas
+    questions.forEach((q, index) => {
+        const isCorrect = selectedAnswers[index] === q.correct_answer;
+        const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
+        const explanation = isCorrect ? '' : `<p>Resposta Correta: ${q.correct_answer}</p><p>Explicação: ${q.explanation}</p><iframe width="560" height="315" src="${q.video_url}" frameborder="0" allowfullscreen></iframe>`;
+        const summaryItem = `
+            <div class="summary-item">
+                <h3>Questão ${index + 1}: ${q.question}</h3>
+                <p>Sua Resposta: ${selectedAnswers[index]}</p>
+                <p>${resultText}</p>
+                ${explanation}
+            </div>
+        `;
+        summaryContainer.innerHTML += summaryItem;
+    });
 
     // Exibir a pontuação no resumo
     const scoreItem = `
