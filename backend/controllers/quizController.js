@@ -1,26 +1,37 @@
 const quizService = require('../services/quizService'); // Importa o serviço do quiz
 
-// Responsavel por obter todas as perguntas do quiz
+// Responsável por obter todas as perguntas do quiz, considerando o idioma
 exports.getQuestions = async (req, res) => {
   const { category_id } = req.query; // Pega o category_id da query string
+  const { language } = req.query; // Pega o idioma da query string (pt ou en)
+  
   try {
-    const questions = await quizService.getAllQuestions(category_id); // Passa o category_id para o serviço
+    if (!language) {
+      return res.status(400).json({ message: 'Idioma não especificado.' });
+    }
+
+    const questions = await quizService.getAllQuestions(category_id, language); // Passa o category_id e o idioma para o serviço
     res.status(200).json(questions); // Retorna a resposta com as perguntas
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar perguntas.', error: error.message });
   }
 };
 
-// Responsável por obter perguntas filtradas por categoria
+// Responsável por obter perguntas filtradas por categoria, considerando o idioma
 exports.getQuestionsByCategory = async (req, res) => {
   const { category_id } = req.query; // Captura o category_id da query string
-  console.log('Category ID:', category_id); // Para verificar se o category_id está correto
+  const { language } = req.query; // Pega o idioma da query string (pt ou en)
+
   try {
     if (!category_id) {
-      return res.status(400).json({ message: 'Categoria não especificada' });
+      return res.status(400).json({ message: 'Categoria não especificada.' });
     }
 
-    const questions = await quizService.getQuestionsByCategory(category_id); // Chama o serviço para obter perguntas filtradas
+    if (!language) {
+      return res.status(400).json({ message: 'Idioma não especificado.' });
+    }
+
+    const questions = await quizService.getQuestionsByCategoryAndLanguage(category_id, language); // Passa o category_id e o idioma para o serviço
     res.status(200).json(questions); // Retorna a resposta com as perguntas filtradas
   } catch (error) {
     res.status(500).json({ message: 'Erro ao buscar perguntas por categoria.', error: error.message });

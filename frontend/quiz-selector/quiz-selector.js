@@ -16,17 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
     updateLanguage(currentLang);
     updateFlag(currentLang);
 
-    // Funções para redirecionar para o quiz correto
+    // Funções para redirecionar para o quiz correto com o idioma selecionado
     document.getElementById('history-quiz-btn').addEventListener('click', () => {
-        window.location.href = '../quiz/quiz.html?category=history'; // Certifique-se de que a categoria correta está na URL
+        const lang = localStorage.getItem('lang') || 'pt'; // Obtém o idioma atual
+        window.location.href = `../quiz/quiz.html?category=history&lang=${lang}`; // Passa o idioma como parâmetro na URL
     });
 
     document.getElementById('rules-quiz-btn').addEventListener('click', () => {
-        window.location.href = '../quiz/quiz.html?category=rules';
+        const lang = localStorage.getItem('lang') || 'pt';
+        window.location.href = `../quiz/quiz.html?category=rules&lang=${lang}`;
     });
 
     document.getElementById('general-quiz-btn').addEventListener('click', () => {
-        window.location.href = '../quiz/quiz.html?category=general';
+        const lang = localStorage.getItem('lang') || 'pt';
+        window.location.href = `../quiz/quiz.html?category=general&lang=${lang}`;
     });
 
     // Função para logout
