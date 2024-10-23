@@ -2,8 +2,8 @@ const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const sendVerificationEmail = require('../services/emailService').sendVerificationEmail; // Função fictícia para envio de email
-const sendPasswordResetEmail = require('../services/emailService').sendPasswordResetEmail; // Função fictícia para envio de email
+const sendVerificationEmail = require('../services/emailService').sendVerificationEmail;
+const sendPasswordResetEmail = require('../services/emailService').sendPasswordResetEmail;
 
 exports.register = async (req, res) => {
   const { username, email, password, fullName } = req.body;
@@ -44,7 +44,7 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { identifier, password } = req.body; // identifier pode ser email ou username
+  const { identifier, password } = req.body;
   try {
     console.log('Tentando login com:', { identifier });
 
@@ -67,12 +67,11 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Agora enviamos o token, nome do usuário e o ID do usuário na resposta
     res.status(200).json({ 
       message: 'Login realizado com sucesso.', 
       token, 
-      userName: user.username,  // Incluindo o nome de usuário na resposta
-      userId: user.id  // Incluindo o user_id na resposta
+      userName: user.username,
+      userId: user.id 
     });
   } catch (err) {
     console.error('Erro ao realizar login:', err);
@@ -118,7 +117,6 @@ exports.resetPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.updatePassword(user.id, hashedPassword);
 
-    // Limpar o token de recuperação de senha
     await User.updatePasswordResetToken(user.id, null, null);
 
     res.status(200).json({ message: 'Senha redefinida com sucesso.' });
@@ -129,7 +127,7 @@ exports.resetPassword = async (req, res) => {
 };
 
 exports.verifyEmail = async (req, res) => {
-  const { token } = req.params; // Captura o token dos parâmetros da URL
+  const { token } = req.params;
   try {
     console.log('Verificando email com token:', token);
 
@@ -139,7 +137,6 @@ exports.verifyEmail = async (req, res) => {
       return res.status(400).json({ message: 'Token inválido.' });
     }
 
-    // Atualiza o status de verificação do usuário no banco de dados
     await User.activateUser(user.id);
 
     res.status(200).json({ message: 'Email verificado com sucesso.' });
@@ -149,7 +146,6 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-// Atualizar informações pessoais
 exports.updateUserInfo = async (req, res) => {
   const { user_id, fullName, email } = req.body;
 
@@ -166,7 +162,6 @@ exports.updateUserInfo = async (req, res) => {
   }
 };
 
-// Alterar a senha do usuário
 exports.changePassword = async (req, res) => {
   const { user_id, currentPassword, newPassword } = req.body;
 
@@ -175,15 +170,15 @@ exports.changePassword = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(user_id); // Função para buscar o usuário pelo ID
-    
-    const isMatch = await bcrypt.compare(currentPassword, user.password); // Verifica se a senha atual está correta
+    const user = await User.findById(user_id);
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Senha atual incorreta.' });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await User.updatePassword(user_id, hashedPassword); // Atualiza a senha no banco
+    await User.updatePassword(user_id, hashedPassword);
     
     res.status(200).json({ message: 'Senha alterada com sucesso!' });
   } catch (error) {

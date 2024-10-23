@@ -3,9 +3,9 @@ require('dotenv').config();
 
 // Configuração do transportador de e-mail usando Nodemailer
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Usando o serviço Gmail
+  service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER, // Seu email tackletrivia@gmail.com
+    user: process.env.EMAIL_USER, // Email tackletrivia@gmail.com
     pass: process.env.EMAIL_PASS, // Senha de aplicativo gerada pelo Gmail
   },
 });
@@ -19,7 +19,7 @@ exports.sendVerificationEmail = async (email, token) => {
     to: email,
     subject: 'Verifique a sua conta - Tackle Trivia',
     text: `Obrigado por se registar! Por favor, verifique o seu e-mail clicando no link: ${verificationLink}`,
-    html: `<p>Obrigado por se registar!</p><p>Por favor, <a href="${verificationLink}">clique aqui</a> para verificar a sua conta.</p>`
+    html: `<p>Obrigado por se registar!</p><p>Por favor, <a href="${verificationLink}">clique aqui</a> para verificar a sua conta.</p>`,
   };
 
   try {
@@ -41,7 +41,7 @@ exports.sendPasswordResetEmail = async (email, token) => {
     to: email,
     subject: 'Redefina a sua palavra-passe - Tackle Trivia',
     text: `Recebemos uma solicitação para redefinir a sua palavra-passe. Clique no link para redefinir: ${resetLink}`,
-    html: `<p>Recebemos uma solicitação para redefinir a sua palavra-passe.</p><p><a href="${resetLink}">Clique aqui</a> para redefinir a sua palavra-passe.</p>`
+    html: `<p>Recebemos uma solicitação para redefinir a sua palavra-passe.</p><p><a href="${resetLink}">Clique aqui</a> para redefinir a sua palavra-passe.</p>`,
   };
 
   try {
