@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(result.message);
                 window.location.href = '../login/login.html';
             } else {
-                alert(`Erro: ${result.message}`);
+                console.error('Erro ao registrar:', result);
+                alert(`Erro: ${result.message ||'Erro inesperado'}`);
             }
         } catch (error) {
             console.error('Erro ao tentar registrar:', error);
