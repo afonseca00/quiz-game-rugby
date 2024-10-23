@@ -1,57 +1,3 @@
-// Função específica para atualizar o conteúdo dinâmico da página de Login
-function updatePageLanguage(lang) {
-    console.log(`Atualizando idioma para: ${lang}`);
-    const titleElement = document.querySelector('title');
-    const h2Element = document.querySelector('.login-content h2');
-    const usernameLabel = document.querySelector('label[for="username"]');
-    const passwordLabel = document.querySelector('label[for="password"]');
-    const loginButton = document.querySelector('.btn-primary');
-    const forgotPasswordLink = document.querySelector('.forgot-password-link');
-    const registerParagraph = document.querySelector('.login-content p.register-link');
-
-    console.log('Elementos encontrados:', {
-        titleElement,
-        h2Element,
-        usernameLabel,
-        passwordLabel,
-        loginButton,
-        forgotPasswordLink,
-        registerParagraph
-    });
-
-    if (titleElement && h2Element && usernameLabel && passwordLabel && loginButton && forgotPasswordLink && registerParagraph) {
-        if (lang === 'en') {
-            titleElement.innerText = 'Login - Tackle Trivia';
-            h2Element.innerText = 'Login';
-            usernameLabel.innerText = 'Username or Email';
-            passwordLabel.innerText = 'Password';
-            loginButton.innerText = 'Login';
-            forgotPasswordLink.innerText = 'Forgot Password?';
-            registerParagraph.innerHTML = `Don't have an account? <a href="../register/register.html">Register here</a>.`;
-        } else {
-            titleElement.innerText = 'Login - Tackle Trivia';
-            h2Element.innerText = 'Entrar';
-            usernameLabel.innerText = 'User ou Email';
-            passwordLabel.innerText = 'Palavra-passe';
-            loginButton.innerText = 'Entrar';
-            forgotPasswordLink.innerText = 'Esqueceu-se da palavra-passe?';
-            registerParagraph.innerHTML = `Não tem uma conta? <a href="../register/register.html">Registe-se aqui</a>.`;
-        }
-
-        console.log('Conteúdo atualizado:', {
-            title: titleElement.innerText,
-            h2: h2Element.innerText,
-            usernameLabel: usernameLabel.innerText,
-            passwordLabel: passwordLabel.innerText,
-            loginButton: loginButton.innerText,
-            forgotPasswordLink: forgotPasswordLink.innerText,
-            registerParagraph: registerParagraph.innerHTML
-        });
-    } else {
-        console.error("Um ou mais elementos não foram encontrados.");
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     // Busca a pontuação e as respostas armazenadas no localStorage
     const score = localStorage.getItem('quizScore');
@@ -79,16 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {
     questions.forEach((q, index) => {
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
-        const explanation = isCorrect ? '' : `<p>Resposta Correta: ${q.correct_answer}</p><p>Explicação: ${q.explanation}</p><iframe width="560" height="315" src="${q.video_url}" frameborder="0" allowfullscreen></iframe>`;
-        const summaryItem = `
-            <div class="summary-item">
-                <h3>Questão ${index + 1}: ${q.question}</h3>
-                <p>Sua Resposta: ${selectedAnswers[index]}</p>
-                <p>${resultText}</p>
-                ${explanation}
-            </div>
+        const explanationHTML = isCorrect ? '' : `<p>Resposta Correta: ${q.correct_answer}</p><p>Explicação: ${q.explanation}</p>`;
+
+        const summaryItem = document.createElement('div');
+        summaryItem.classList.add('summary-item');
+        summaryItem.innerHTML = `
+            <h3>Questão ${index + 1}: ${q.question}</h3>
+            <p>Sua Resposta: ${selectedAnswers[index]}</p>
+            <p>${resultText}</p>
+            ${explanationHTML}
         `;
-        summaryContainer.innerHTML += summaryItem;
+
+        // Verifica se há um vídeo associado e adiciona o iframe
+        if (!isCorrect && q.video_url) {
+            const iframe = document.createElement('iframe');
+            iframe.width = '560';
+            iframe.height = '315';
+            iframe.src = q.video_url;
+            iframe.frameBorder = '0';
+            iframe.allowFullscreen = true;
+            summaryItem.appendChild(iframe);
+        }
+
+        summaryContainer.appendChild(summaryItem);
     });
 
     // Exibir a pontuação no resumo
@@ -147,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     submitScore();
 });
 
+// Lógica de logout
 document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
