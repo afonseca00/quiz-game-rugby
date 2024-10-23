@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Obtém o valor da categoria da URL
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
-    
+
     // Mapeia a categoria para o ID correspondente no banco de dados
     const categoryMap = {
         'history': 1,
@@ -17,19 +17,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const categoryId = categoryMap[category];
 
+    if (!categoryId) {
+        alert('Categoria inválida ou não especificada.');
+        return;
+    }
+
     // Função para buscar perguntas da API
     async function fetchQuestions(categoryId) {
         try {
-            const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/questions?category_id=${categoryId}`);
+            // Obtem o idioma atual (por exemplo, do localStorage ou de uma configuração)
+            const currentLang = localStorage.getItem('lang') || 'pt'; // Pode ser 'pt' ou 'en'
+            
+            const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/questions?category_id=${categoryId}&language=${currentLang}`);
+            
             const data = await response.json();
-            if (response.ok) {
+            if (response.ok && data.length > 0) {
                 return data.slice(0, 5); // Retorna no máximo 5 perguntas
             } else {
-                throw new Error('Erro ao carregar perguntas');
+                throw new Error('Erro ao carregar perguntas ou perguntas não disponíveis.');
             }
         } catch (error) {
             console.error('Erro ao carregar perguntas:', error);
             alert('Erro ao carregar perguntas. Tente novamente mais tarde.');
+            return null;
         }
     }
 
@@ -42,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     questions = await fetchQuestions(categoryId);
     
     if (!questions || questions.length === 0) {
+        alert('Nenhuma pergunta disponível para essa categoria.');
         return; // Sai se não houver perguntas
     }
 

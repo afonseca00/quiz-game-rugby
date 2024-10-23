@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('rules-quiz-btn').addEventListener('click', () => {
-        const lang = localStorage.getItem('lang') || 'pt';
-        window.location.href = `../quiz/quiz.html?category=rules&lang=${lang}`;
+        const lang = localStorage.getItem('lang') || 'pt'; // Obtém o idioma atual
+        window.location.href = `../quiz/quiz.html?category=rules&lang=${lang}`; // Passa o idioma como parâmetro na URL
     });
 
     document.getElementById('general-quiz-btn').addEventListener('click', () => {
-        const lang = localStorage.getItem('lang') || 'pt';
-        window.location.href = `../quiz/quiz.html?category=general&lang=${lang}`;
+        const lang = localStorage.getItem('lang') || 'pt'; // Obtém o idioma atual
+        window.location.href = `../quiz/quiz.html?category=general&lang=${lang}`; // Passa o idioma como parâmetro na URL
     });
 
     // Função para logout
