@@ -79,12 +79,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Se a URL já estiver no formato embed, retorne-a
         if (videoUrl.includes('youtube.com/embed')) {
-            return videoUrl;
+            return videoUrl.split('?')[0];
         }
 
         // Se a URL estiver no formato "watch", converta para "embed"
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         if (videoIdMatch) {
+            // Correção aqui: usando backticks para interpolação
             return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
         }
 
