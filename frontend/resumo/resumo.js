@@ -53,12 +53,10 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Busca a pontuação e as respostas armazenadas no localStorage
     const score = localStorage.getItem('quizScore');
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
-    // Adiciona essas variáveis para capturar os valores do user_id e quiz_id
     const user_id = localStorage.getItem('userId'); 
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
@@ -75,22 +73,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryContainer.innerHTML = '';
 
+    // Função para converter uma URL de vídeo do formato "watch" para "embed"
+    function convertToEmbedUrl(videoUrl) {
+        if (!videoUrl) return null;
+
+        // Se a URL já estiver no formato embed, retorne-a
+        if (videoUrl.includes('youtube.com/embed')) {
+            return videoUrl;
+        }
+
+        // Se a URL estiver no formato "watch", converta para "embed"
+        const videoIdMatch = videoUrl.match(/v=([a-zA-Z0-9_-]+)/);
+        if (videoIdMatch) {
+            return https://www.youtube.com/embed/${videoIdMatch[1]};
+        }
+
+        // Se não for um link válido, retorne null
+        return null;
+    }
+
     // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
-        const videoUrl = q.video_url && q.video_url.includes('youtube.com/embed') ? q.video_url : null;
+
+        // Converter o URL do vídeo para o formato embed
+        const videoUrl = convertToEmbedUrl(q.video_url);
+        console.log('URL do vídeo convertido:', videoUrl);
 
         const explanation = isCorrect
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
-             <p>Explicação: ${q.explanation}</p>
-            ${videoUrl ? `<iframe width="560" height="315" 
-                src="${q.video_url}" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-            </iframe>` : '<p>Vídeo não disponível</p>'}`;
+               <p>Explicação: ${q.explanation}</p>
+               ${videoUrl ? `<iframe width="560" height="315" 
+                   src="${videoUrl}" 
+                   frameborder="0" 
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                   allowfullscreen>
+               </iframe>` : '<p>Vídeo não disponível</p>'}`;
+        
         const summaryItem = `
             <div class="summary-item">
                 <h3>Questão ${index + 1}: ${q.question}</h3>
@@ -101,6 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         summaryContainer.innerHTML += summaryItem;
     });
+
+    // Exibir a pontuação no resumo
+    const scoreItem = `
+        <div class="score-item">
+            <h3>Sua Pontuação Final: ${score} pontos</h3>
+        </div>
+    `;
+    summaryContainer.innerHTML += scoreItem;
+});
 
     // Exibir a pontuação no resumo
     const scoreItem = `
