@@ -77,18 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function convertToEmbedUrl(videoUrl) {
         if (!videoUrl) return null;
 
-        // Se a URL já estiver no formato embed, retorne-a
+        // Remover parâmetros desnecessários (como ?si=...) do URL embed
         if (videoUrl.includes('youtube.com/embed')) {
-            return videoUrl.split('?')[0];
+            return videoUrl.split('?')[0]; // Remover parâmetros
         }
 
-        // Se a URL estiver no formato "watch", converta para "embed"
+        // Se a URL estiver no formato "watch", converter para "embed"
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         if (videoIdMatch) {
             return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
         }
 
-        // Se não for um link válido, retorne null
         return null;
     }
 
@@ -101,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const videoUrl = convertToEmbedUrl(q.video_url);
         console.log('URL do vídeo convertido:', videoUrl);
 
-        // Gerar o conteúdo de explicação e vídeo, se disponível
         const explanation = isCorrect
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
