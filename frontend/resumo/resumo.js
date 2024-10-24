@@ -77,17 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function convertToEmbedUrl(videoUrl) {
         if (!videoUrl) return null;
 
-        // Remover parâmetros desnecessários (como ?si=...) do URL embed
+        // Se a URL já estiver no formato embed, retorne-a
         if (videoUrl.includes('youtube.com/embed')) {
-            return videoUrl.split('?')[0]; // Remover parâmetros
+            return videoUrl.split('?')[0];
         }
 
-        // Se a URL estiver no formato "watch", converter para "embed"
+        // Se a URL estiver no formato "watch", converta para "embed"
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         if (videoIdMatch) {
             return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
         }
 
+        // Se não for um link válido, retorne null
         return null;
     }
 
@@ -95,6 +96,9 @@ document.addEventListener('DOMContentLoaded', () => {
     questions.forEach((q, index) => {
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
+
+        // Verifique o URL do vídeo no console
+        console.log("URL do vídeo:", q.video_url);
 
         // Converter o URL do vídeo para o formato embed
         const videoUrl = convertToEmbedUrl(q.video_url);
@@ -129,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
+
 
     // Adicionar evento ao botão "Ver Ranking"
     const rankingBtn = document.getElementById('ranking-btn');
