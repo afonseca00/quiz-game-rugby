@@ -94,11 +94,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
+        console.log("Objeto da questão:", q);  // Exibir o objeto completo da questão
+        console.log("URL do vídeo:", q.video_url);  // Exibir apenas o video_url
+
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
-
-        // Verifique o URL do vídeo no console
-        console.log("URL do vídeo:", q.video_url);
 
         // Converter o URL do vídeo para o formato embed
         const videoUrl = convertToEmbedUrl(q.video_url);
@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
+});
 
 
     // Adicionar evento ao botão "Ver Ranking"
@@ -181,7 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Envia a pontuação ao carregar o resumo
     submitScore();
-});
 
 document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
