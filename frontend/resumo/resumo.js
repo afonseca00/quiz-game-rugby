@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Se a URL estiver no formato "watch", converta para "embed"
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         if (videoIdMatch) {
-            // Correção aqui: usando backticks para interpolação
             return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
         }
 
@@ -102,11 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const videoUrl = convertToEmbedUrl(q.video_url);
         console.log('URL do vídeo convertido:', videoUrl);
 
+        // Gerar o conteúdo de explicação e vídeo, se disponível
         const explanation = isCorrect
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
                <p>Explicação: ${q.explanation}</p>
-               <iframe width="560" height="315" src="https://www.youtube.com/embed/lD-mqVq4Kmc?si=Hn7AAvyNxqsuKyhK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> : '<p>Vídeo não disponível</p>'}`;
+               ${videoUrl ? `<iframe width="560" height="315" 
+                   src="${videoUrl}" 
+                   frameborder="0" 
+                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                   allowfullscreen>
+               </iframe>` : '<p>Vídeo não disponível</p>'}`;
         
         const summaryItem = `
             <div class="summary-item">
