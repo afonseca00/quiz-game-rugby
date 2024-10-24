@@ -1,6 +1,6 @@
 // Função específica para atualizar o conteúdo dinâmico da página de Login
 function updatePageLanguage(lang) {
-    console.log(`Atualizando idioma para: ${lang}`);
+    console.log(`Atualizando idioma para: ${lang}`);  // Corrigir interpolação de string
     const titleElement = document.querySelector('title');
     const h2Element = document.querySelector('.login-content h2');
     const usernameLabel = document.querySelector('label[for="username"]');
@@ -9,16 +9,7 @@ function updatePageLanguage(lang) {
     const forgotPasswordLink = document.querySelector('.forgot-password-link');
     const registerParagraph = document.querySelector('.login-content p.register-link');
 
-    console.log('Elementos encontrados:', {
-        titleElement,
-        h2Element,
-        usernameLabel,
-        passwordLabel,
-        loginButton,
-        forgotPasswordLink,
-        registerParagraph
-    });
-
+    // Atualizar o conteúdo da página com base no idioma selecionado
     if (titleElement && h2Element && usernameLabel && passwordLabel && loginButton && forgotPasswordLink && registerParagraph) {
         if (lang === 'en') {
             titleElement.innerText = 'Login - Tackle Trivia';
@@ -135,54 +126,41 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
+
+    // Submeter pontuação
+    submitScore();
 });
 
-    // Adicionar evento ao botão "Ver Ranking"
-    const rankingBtn = document.getElementById('ranking-btn');
-    const anotherQuizBtn = document.getElementById('another-quiz-btn');
+async function submitScore() {
+    const user_id = localStorage.getItem('userId');  // Garantir que o user_id está sendo capturado
+    const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
+    const score = localStorage.getItem('quizScore');  // Adicionar captura de score
+    
+    const payload = {
+        user_id: user_id,
+        quiz_id: quiz_id,
+        score: score
+    };
 
-    if (rankingBtn) {
-        rankingBtn.addEventListener('click', () => {
-            window.location.href = '../rankings/rankings.html'; // Redireciona para a página de ranking
+    try {
+        const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/submit-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         });
-    }
 
-    if (anotherQuizBtn) {
-        anotherQuizBtn.addEventListener('click', () => {
-            window.location.href = '../quiz-selector/quiz-selector.html'; // Redireciona para a página de seleção de quiz
-        });
-    }
-
-    // Enviar pontuação para o backend
-    async function submitScore() {
-        const payload = {
-            user_id: user_id,
-            quiz_id: quiz_id,
-            score: score
-        };
-
-        try {
-            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/submit-score', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                console.log('Pontuação enviada com sucesso!', data);
-            } else {
-                console.error('Erro ao enviar pontuação:', data.error);
-            }
-        } catch (error) {
-            console.error('Erro ao enviar pontuação:', error);
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Pontuação enviada com sucesso!', data);
+        } else {
+            console.error('Erro ao enviar pontuação:', data.error);
         }
+    } catch (error) {
+        console.error('Erro ao enviar pontuação:', error);
     }
-
-    // Envia a pontuação ao carregar o resumo
-    submitScore();
+}
 
 document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
