@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
                <p>Explicação: ${q.explanation}</p>
-               ${videoUrl ? `<iframe width="560" height="315" src="https://www.youtube.com/embed/lD-mqVq4Kmc?si=Hn7AAvyNxqsuKyhK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` : '<p>Vídeo não disponível</p>'}`;
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/lD-mqVq4Kmc?si=Hn7AAvyNxqsuKyhK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> : '<p>Vídeo não disponível</p>'}`;
         
         const summaryItem = `
             <div class="summary-item">
