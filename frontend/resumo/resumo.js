@@ -130,12 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     summaryContainer.innerHTML += scoreItem;
 
-
     // Submeter pontuação
-    submitScore(questions, user_id, quiz_id, score);  // Corrigir a passagem de parâmetros
+    submitScore(user_id, quiz_id, score);
 });
 
-async function submitScore(questions, user_id, quiz_id, score) {
+// Função para enviar a pontuação para o backend
+async function submitScore(user_id, quiz_id, score) {
     const payload = {
         user_id: user_id,
         quiz_id: quiz_id,
@@ -162,6 +162,7 @@ async function submitScore(questions, user_id, quiz_id, score) {
     }
 }
 
+// Função de logout
 document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');

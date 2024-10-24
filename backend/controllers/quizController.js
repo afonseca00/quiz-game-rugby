@@ -14,7 +14,7 @@ exports.getQuestions = async (req, res) => {
       return res.status(400).json({ message: 'Idioma não especificado.' });
     }
 
-    console.log(`Buscando perguntas para categoria_id ${category_id} e idioma ${language}.`);
+    console.log(`Buscando perguntas para category_id ${category_id} e idioma ${language}.`);
 
     const questions = await quizService.getAllQuestions(category_id, language); // Passa o category_id e o idioma para o serviço
     
