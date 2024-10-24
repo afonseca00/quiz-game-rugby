@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
-    console.log("Questões carregadas do localStorage:", questions); // Verificar o conteúdo de questions
+    console.log("Questões carregadas do localStorage:", questions);
 
     const user_id = localStorage.getItem('userId'); 
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Se a URL estiver no formato "watch", converta para "embed"
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         if (videoIdMatch) {
-            return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+            return https://www.youtube.com/embed/${videoIdMatch[1]};
         }
 
         // Se não for um link válido, retorne null
@@ -87,22 +87,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
-        console.log("Objeto da questão:", q);  // Verifica o conteúdo do objeto q
-        console.log("URL do vídeo:", q.video_url || 'Campo video_url não disponível');  // Verifica se o campo video_url está presente
+        console.log("Objeto da questão:", q);
+
+        // Verificar se o campo video_url está presente
+        const videoUrl = q.video_url || null;
+        console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
-        // Verificar se video_url existe antes de tentar convertê-lo
-        const videoUrl = q.video_url ? convertToEmbedUrl(q.video_url) : null;
-        console.log('URL do vídeo convertido:', videoUrl);
+        // Converter o URL do vídeo para o formato embed
+        const embedUrl = convertToEmbedUrl(videoUrl);
+        console.log('URL do vídeo convertido:', embedUrl);
 
         const explanation = isCorrect
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
                <p>Explicação: ${q.explanation}</p>
-               ${videoUrl ? `<iframe width="560" height="315" 
-                   src="${videoUrl}" 
+               ${embedUrl ? `<iframe width="560" height="315" 
+                   src="${embedUrl}" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
@@ -126,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
+
 
     // Submeter pontuação
     submitScore(questions, user_id, quiz_id, score);  // Corrigir a passagem de parâmetros
