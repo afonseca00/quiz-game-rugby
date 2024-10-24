@@ -88,13 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
         console.log("Objeto da questão:", q);  // Verifica o conteúdo do objeto q
-        console.log("URL do vídeo:", q.video_url);  // Verifica se o campo video_url está presente
+        console.log("URL do vídeo:", q.video_url || 'Campo video_url não disponível');  // Verifica se o campo video_url está presente
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
-        // Converter o URL do vídeo para o formato embed
-        const videoUrl = convertToEmbedUrl(q.video_url);
+        // Verificar se video_url existe antes de tentar convertê-lo
+        const videoUrl = q.video_url ? convertToEmbedUrl(q.video_url) : null;
         console.log('URL do vídeo convertido:', videoUrl);
 
         const explanation = isCorrect
@@ -128,14 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryContainer.innerHTML += scoreItem;
 
     // Submeter pontuação
-    submitScore();
+    submitScore(questions, user_id, quiz_id, score);  // Corrigir a passagem de parâmetros
 });
 
-async function submitScore() {
-    const user_id = localStorage.getItem('userId');  // Garantir que o user_id está sendo capturado
-    const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
-    const score = localStorage.getItem('quizScore');  // Adicionar captura de score
-    
+async function submitScore(questions, user_id, quiz_id, score) {
     const payload = {
         user_id: user_id,
         quiz_id: quiz_id,
