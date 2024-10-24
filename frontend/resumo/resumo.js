@@ -136,6 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Função para enviar a pontuação para o backend
 async function submitScore(user_id, quiz_id, score) {
+    if (!user_id || !quiz_id || score === undefined) {
+        console.error("user_id, quiz_id ou score faltando.");
+        return;
+    }
+
     const payload = {
         user_id: user_id,
         quiz_id: quiz_id,
