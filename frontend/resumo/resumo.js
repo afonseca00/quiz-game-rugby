@@ -130,15 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
-});
-
-    // Exibir a pontuação no resumo
-    const scoreItem = `
-        <div class="score-item">
-            <h3>Sua Pontuação Final: ${score} pontos</h3>
-        </div>
-    `;
-    summaryContainer.innerHTML += scoreItem;
 
     // Adicionar evento ao botão "Ver Ranking"
     const rankingBtn = document.getElementById('ranking-btn');
