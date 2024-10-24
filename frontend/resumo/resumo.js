@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : `<p>Resposta Correta: ${q.correct_answer}</p>
              <p>Explicação: ${q.explanation}</p>
             ${videoUrl ? `<iframe width="560" height="315" 
-                src="${videoUrl}" 
+                src="${q.video_url}" 
                 frameborder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowfullscreen>
