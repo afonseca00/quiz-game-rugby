@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
+    console.log("Questões carregadas do localStorage:", questions); // Verificar o conteúdo de questions
+
     const user_id = localStorage.getItem('userId'); 
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
@@ -94,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
-        console.log("Objeto da questão:", q);  // Exibir o objeto completo da questão
-        console.log("URL do vídeo:", q.video_url);  // Exibir apenas o video_url
+        console.log("Objeto da questão:", q);  // Verifica o conteúdo do objeto q
+        console.log("URL do vídeo:", q.video_url);  // Verifica se o campo video_url está presente
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
@@ -134,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     summaryContainer.innerHTML += scoreItem;
 });
-
 
     // Adicionar evento ao botão "Ver Ranking"
     const rankingBtn = document.getElementById('ranking-btn');
