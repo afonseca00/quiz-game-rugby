@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
-               </iframe>` : <p>${lang === 'en' ? 'Video not available' : 'Vídeo não disponível'}</p>}`;
+               </iframe>` : `<p>${lang === 'en' ? 'Video not available' : 'Vídeo não disponível'}</p>`}`;
         
         const summaryItem = `
             <div class="summary-item">
