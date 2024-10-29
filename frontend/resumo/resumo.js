@@ -42,25 +42,6 @@ function updatePageLanguage(lang) {
     }
 }
 
-// Função para converter uma URL de vídeo do formato "watch" para "embed"
-function convertToEmbedUrl(videoUrl) {
-    if (!videoUrl) return null;
-
-    // Verifica se já está no formato embed
-    if (videoUrl.includes('youtube.com/embed')) {
-        return videoUrl.split('?')[0];
-    }
-
-    // Converter URLs no formato "watch"
-    const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-    if (videoIdMatch) {
-        return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
-    }
-
-    // Retorna null se o link não for válido
-    return null;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
     const score = localStorage.getItem('quizScore');
@@ -93,15 +74,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
-        const embedUrl = convertToEmbedUrl(videoUrl);
-        console.log('URL do vídeo convertido:', embedUrl);
-
         const explanation = isCorrect
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
                <p>Explicação: ${q.explanation}</p>
-               ${embedUrl ? `<iframe width="560" height="315" 
-                   src="${embedUrl}" 
+               ${videoUrl ? `<iframe width="560" height="315" 
+                   src="${videoUrl}" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
