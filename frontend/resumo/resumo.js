@@ -43,20 +43,13 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('language') || 'pt'; // Defina o idioma com base no armazenamento ou padrão como 'pt'
+
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const score = localStorage.getItem('quizScore');
 
     console.log("Questões carregadas do localStorage:", questions);
-
-    questions.forEach((q) => {
-        console.log("Verificando dados carregados da questão:", q);
-        if (!q.video_url) {
-            console.warn("A questão não contém um video_url:", q.question);
-        } else {
-            console.log("URL do vídeo:", q.video_url);
-        }
-    });
 
     const summaryContainer = document.getElementById('summary-container');
     if (!summaryContainer) {
@@ -78,30 +71,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     questions.forEach((q, index) => {
         const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
-        console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
-
         const isCorrect = selectedAnswers[index] === q.correct_answer;
-        const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
+        const resultText = isCorrect ? (lang === 'en' ? '✅ Correct' : '✅ Correto') : (lang === 'en' ? '❌ Incorrect' : '❌ Errado');
 
         const embedUrl = convertToEmbedUrl(videoUrl);
-        console.log('URL do vídeo convertido:', embedUrl);
 
         const explanation = isCorrect
             ? ''
-            : `<p>Resposta Correta: ${q.correct_answer}</p>
-               <p>Explicação: ${q.explanation}</p>
+            : `<p>${lang === 'en' ? 'Correct Answer:' : 'Resposta Correta:'} ${q.correct_answer}</p>
+               <p>${lang === 'en' ? 'Explanation:' : 'Explicação:'} ${q.explanation}</p>
                ${embedUrl ? `<iframe width="560" height="315" 
                    src="${embedUrl}" 
                    sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
-               </iframe>` : '<p>Vídeo não disponível</p>'}`;
+               </iframe>` : <p>${lang === 'en' ? 'Video not available' : 'Vídeo não disponível'}</p>}`;
         
         const summaryItem = `
             <div class="summary-item">
-                <h3>Questão ${index + 1}: ${q.question}</h3>
-                <p>Sua Resposta: ${selectedAnswers[index]}</p>
+                <h3>${lang === 'en' ? 'Question' : 'Questão'} ${index + 1}: ${q.question}</h3>
+                <p>${lang === 'en' ? 'Your Answer:' : 'Sua Resposta:'} ${selectedAnswers[index]}</p>
                 <p>${resultText}</p>
                 ${explanation}
             </div>
@@ -109,11 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
-    const scoreItem = `
-        <div class="score-item">
-            <h3>Sua Pontuação Final: ${score} pontos</h3>
-        </div>
-    `;
+    const scoreText = lang === 'en' ? `Your Final Score: ${score} points` : `Sua Pontuação Final: ${score} pontos`;
+    const scoreItem = <div class="score-item"><h3>${scoreText}</h3></div>;
     summaryContainer.innerHTML += scoreItem;
 
     // Função para enviar pontuação para o servidor
@@ -162,14 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../index/index.html';
     });
 
-    // Adicionando event listeners aos botões
+    document.getElementById('ranking-btn').innerText = lang === 'en' ? 'View Rankings' : 'Ver Ranking';
     document.getElementById('ranking-btn').addEventListener('click', () => {
-        // Redireciona para a página de ranking
         window.location.href = '../rankings/rankings.html';
     });
 
+    document.getElementById('another-quiz-btn').innerText = lang === 'en' ? 'Take Another Quiz' : 'Fazer Outro Quiz';
     document.getElementById('another-quiz-btn').addEventListener('click', () => {
-        // Redireciona para a página de seleção de quiz
         window.location.href = '../quiz-selector/quiz-selector.html';
     });
 });
