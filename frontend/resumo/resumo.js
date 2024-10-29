@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
-               </iframe>` : <p>${labels.videoNotAvailable}</p>}`;
+               </iframe>` : `<p>${labels.videoNotAvailable}</p>`}`;
 
         const summaryItem = `
             <div class="summary-item">
