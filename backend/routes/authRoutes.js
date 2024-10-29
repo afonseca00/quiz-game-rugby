@@ -6,6 +6,7 @@ const quizController = require('../controllers/quizController'); // Importa o co
 // Rotas de autenticação
 router.post('/register', authController.register);
 router.post('/login', authController.login); // Adicionando a rota de login
+router.post('/request-password-reset', authController.requestPasswordReset);
 router.post('/reset-password', authController.resetPassword);
 router.get('/verify-email/:token', authController.verifyEmail);
 
