@@ -43,13 +43,12 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const questions = JSON.parse(localStorage.getItem('quizQuestions'));
-    const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
-    const score = localStorage.getItem('quizScore');
+    const questions = JSON.parse(localStorage.getItem('quizQuestions')) || [];
+    const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers')) || [];
+    const score = localStorage.getItem('quizScore') || 0;
 
     console.log("Questões carregadas do localStorage:", questions);
 
-    // Verificação de cada questão carregada para garantir que tenha o video_url
     questions.forEach((q) => {
         console.log("Verificando dados carregados da questão:", q);
         if (!q.video_url) {
@@ -97,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    src="${embedUrl}" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                   allowfullscreen>
+                   allowfullscreen sandbox="allow-scripts">
                </iframe>` : '<p>Vídeo não disponível</p>'}`;
         
         const summaryItem = `
@@ -120,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     summaryContainer.innerHTML += scoreItem;
 
     // Função para enviar pontuação para o servidor
-    async function submitScore(questions, user_id, quiz_id, score) {
+    async function submitScore(user_id, quiz_id, score) {
         const payload = {
             user_id: user_id,
             quiz_id: quiz_id,
@@ -152,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
     if (user_id && quiz_id) {
-        submitScore(questions, user_id, quiz_id, score);
+        submitScore(user_id, quiz_id, score);
     } else {
         console.error('Erro: user_id ou quiz_id não encontrados no localStorage.');
     }
