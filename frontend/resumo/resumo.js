@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
-        alert('Você foi desconectado.');
+        alert('Logout com sucesso.');
         window.location.href = '../index/index.html';
     });
 

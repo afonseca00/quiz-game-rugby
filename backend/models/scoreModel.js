@@ -10,7 +10,7 @@ const Score = {
     );
   },
 
-  // Função para obter a soma das pontuações de cada usuário, ordenando pela maior soma
+  // Função para obter a soma das pontuações de cada utilizador, ordenando pela maior soma
   getTopScores: (callback) => {
     const query = `
       SELECT users.username, SUM(scores.score) AS total_score

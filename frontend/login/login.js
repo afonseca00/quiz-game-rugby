@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('userId não encontrado na resposta do backend');
                 }
 
-                alert(result.message);
                 window.location.href = '../dashboard/dashboard.html'; // Redirecionar para dashboard
             } else {
                 alert(`Erro: ${result.message}`);

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Lógica de envio de requisição ao backend para recuperação de senha
+    // Lógica de envio de requisição ao backend para recuperação de palavra-passe
     document.getElementById('forgot-password-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const identifier = document.getElementById('identifier').value;
@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(`Erro: ${result.message}`);
             }
         } catch (error) {
-            console.error('Erro ao tentar recuperar senha:', error);
-            alert('Ocorreu um erro ao tentar recuperar a senha. Tente novamente mais tarde.');
+            console.error('Erro ao tentar recuperar palavra-passe:', error);
+            alert('Ocorreu um erro ao tentar recuperar a palavra-passe. Tente novamente mais tarde.');
         }
     });
 });

@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER, // Email tackletrivia@gmail.com
-    pass: process.env.EMAIL_PASS, // Senha de aplicativo gerada pelo Gmail
+    pass: process.env.EMAIL_PASS, // Palavra-passe de aplicativo gerada pelo Gmail
   },
 });
 
@@ -32,7 +32,7 @@ exports.sendVerificationEmail = async (email, token) => {
   }
 };
 
-// Função para enviar o email de redefinição de senha
+// Função para enviar o email de redefinição de palavra-passe
 exports.sendPasswordResetEmail = async (email, token) => {
   const resetLink = `https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/reset-password/reset-password.html?token=${token}`; 
   
@@ -47,9 +47,9 @@ exports.sendPasswordResetEmail = async (email, token) => {
   try {
     // Enviar o email
     await transporter.sendMail(mailOptions);
-    console.log(`Email de redefinição de senha enviado para ${email}`);
+    console.log(`Email de redefinição de palavra-passe enviado para ${email}`);
   } catch (error) {
-    console.error('Erro ao enviar e-mail de redefinição de senha:', error);
-    throw new Error('Falha no envio do email de redefinição de senha');
+    console.error('Erro ao enviar e-mail de redefinição de palavra-passe:', error);
+    throw new Error('Falha no envio do email de redefinição de palavra-passe');
   }
 };

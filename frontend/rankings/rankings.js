@@ -68,6 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.getElementById('logout-btn').addEventListener('click', () => {
     localStorage.removeItem('token');
-    alert('Você foi desconectado.');
+    alert('Logout com sucesso.');
     window.location.href = '../index/index.html';
 });

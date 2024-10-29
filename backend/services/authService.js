@@ -8,7 +8,7 @@ const sendPasswordResetEmail = require('../services/emailService').sendPasswordR
 exports.register = async (req, res) => {
   const { username, email, password, fullName } = req.body;
   try {
-    console.log('Tentando registrar usuário:', { username, email, fullName });
+    console.log('A tentar registar utilizador:', { username, email, fullName });
 
     // Verificar se o email já está em uso
     const emailExists = await User.findByEmail(email);
@@ -37,18 +37,18 @@ exports.register = async (req, res) => {
       return res.status(500).json({ message: 'Erro ao enviar e-mail de verificação.', error: error.message });
     }
 
-    // Criação do usuário após o envio bem-sucedido do e-mail
-    console.log('Criando usuário...');
+    // Criação do utilizador após o envio bem-sucedido do e-mail
+    console.log('A criar utilizador...');
     const user = await User.create(username, email, password, fullName);
-    console.log('Usuário criado com sucesso:', user);
+    console.log('Utilizador criado com sucesso:', user);
 
     // Atualizar o token de verificação no banco de dados
     await User.updateVerificationToken(user.insertId, token);
 
-    res.status(201).json({ message: 'Usuário registrado com sucesso. Verifique seu email para ativar sua conta.' });
+    res.status(201).json({ message: 'Utilizador registrado com sucesso. Verifique seu email para ativar sua conta.' });
   } catch (err) {
-    console.error('Erro ao registrar usuário:', err.message, err.stack);
-    res.status(500).json({ message: 'Erro ao registrar usuário.', error: err.message });
+    console.error('Erro ao registar utilizador:', err.message, err.stack);
+    res.status(500).json({ message: 'Erro ao registar utilizador.', error: err.message });
   }
 };
 
@@ -59,18 +59,18 @@ exports.login = async (req, res) => {
 
     const user = await User.findByUsernameOrEmail(identifier);
     if (!user) {
-      console.log('Usuário não encontrado:', identifier);
-      return res.status(404).json({ message: 'Usuário não encontrado.' });
+      console.log('Utilizador não encontrado:', identifier);
+      return res.status(404).json({ message: 'Utilizador não encontrado.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log('Senha incorreta para usuário:', identifier);
-      return res.status(401).json({ message: 'Senha incorreta.' });
+      console.log('Password incorreta para Utilizador:', identifier);
+      return res.status(401).json({ message: 'Password incorreta.' });
     }
 
     if (!user.is_verified) {
-      console.log('Usuário não verificado:', identifier);
+      console.log('Utilizador não verificado:', identifier);
       return res.status(403).json({ message: 'Verifique seu email para ativar sua conta.' });
     }
 
@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
     res.status(200).json({
       message: 'Login realizado com sucesso.',
       token,
-      userName: user.username,  // Incluindo o nome de usuário na resposta
+      userName: user.username,  // Incluindo o nome de utilizador na resposta
       userId: user.id  // Incluindo o user_id na resposta
     });
   } catch (err) {
@@ -91,12 +91,12 @@ exports.login = async (req, res) => {
 exports.requestPasswordReset = async (req, res) => {
   const { email } = req.body;
   try {
-    console.log('Solicitação de redefinição de senha para:', email);
+    console.log('Solicitação de redefinição de palavra-passe para:', email);
 
     const user = await User.findByEmail(email);
     if (!user) {
-      console.log('Usuário não encontrado para redefinição de senha:', email);
-      return res.status(404).json({ message: 'Usuário não encontrado.' });
+      console.log('Utilizador não encontrado para redefinição de palavra-passe:', email);
+      return res.status(404).json({ message: 'Utilizador não encontrado.' });
     }
 
     const token = crypto.randomBytes(20).toString('hex');
@@ -105,17 +105,17 @@ exports.requestPasswordReset = async (req, res) => {
 
     await sendPasswordResetEmail(email, token);
 
-    res.status(200).json({ message: 'Email para redefinição de senha enviado.' });
+    res.status(200).json({ message: 'Email para redefinição de palavra-passe enviado.' });
   } catch (err) {
-    console.error('Erro ao solicitar redefinição de senha:', err);
-    res.status(500).json({ message: 'Erro ao solicitar redefinição de senha.', error: err.message });
+    console.error('Erro ao solicitar redefinição de palavra-passe:', err);
+    res.status(500).json({ message: 'Erro ao solicitar redefinição de palavra-passe.', error: err.message });
   }
 };
 
 exports.resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
   try {
-    console.log('Redefinindo senha com token:', token);
+    console.log('Redefinindo palavra-passe com token:', token);
 
     const user = await User.findByPasswordResetToken(token);
     if (!user || user.password_reset_expiry < new Date()) {
@@ -128,10 +128,10 @@ exports.resetPassword = async (req, res) => {
 
     await User.updatePasswordResetToken(user.id, null, null);
 
-    res.status(200).json({ message: 'Senha redefinida com sucesso.' });
+    res.status(200).json({ message: 'Palavra-passe redefinida com sucesso.' });
   } catch (err) {
-    console.error('Erro ao redefinir senha:', err);
-    res.status(500).json({ message: 'Erro ao redefinir senha.', error: err.message });
+    console.error('Erro ao redefinir palavra-passe:', err);
+    res.status(500).json({ message: 'Erro ao redefinir palavra-passe.', error: err.message });
   }
 };
 
@@ -172,12 +172,12 @@ exports.updateUserInfo = async (req, res) => {
   }
 };
 
-// Alterar a senha do usuário
+// Alterar a palavra-passe do utilizador
 exports.changePassword = async (req, res) => {
   const { user_id, currentPassword, newPassword } = req.body;
 
   if (!user_id || !currentPassword || !newPassword) {
-    return res.status(400).json({ message: 'user_id, senha atual e nova senha são obrigatórios.' });
+    return res.status(400).json({ message: 'user_id, palavra-passe atual e nova palavra-passe são obrigatórios.' });
   }
 
   try {
@@ -185,15 +185,15 @@ exports.changePassword = async (req, res) => {
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Senha atual incorreta.' });
+      return res.status(401).json({ message: 'Palavra-passe atual incorreta.' });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.updatePassword(user_id, hashedPassword);
 
-    res.status(200).json({ message: 'Senha alterada com sucesso!' });
+    res.status(200).json({ message: 'Palavra-passe alterada com sucesso!' });
   } catch (error) {
-    console.error('Erro ao alterar senha:', error);
-    res.status(500).json({ message: 'Erro ao alterar senha.', error: error.message });
+    console.error('Erro ao alterar palavra-passe:', error);
+    res.status(500).json({ message: 'Erro ao alterar palavra-passe.', error: error.message });
   }
 };

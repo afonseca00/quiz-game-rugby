@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const token = getTokenFromUrl();
     if (!token) {
-        alert('Token de redefinição de senha não encontrado.');
+        alert('Token de redefinição de palavra-passe não encontrado.');
         return;
     }
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Erro ao redefinir palavra-passe:', error);
-            alert('Ocorreu um erro ao tentar redefinir a senha. Tente novamente mais tarde.');
+            alert('Ocorreu um erro ao tentar redefinir a palavra-passe. Tente novamente mais tarde.');
         }
     });
 });

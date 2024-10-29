@@ -62,7 +62,7 @@ exports.getQuestionsByCategory = async (req, res) => {
   }
 };
 
-// Responsável por registrar a pontuação de um usuário
+// Responsável por registar a pontuação de um utilizador
 exports.submitScore = async (req, res) => {
   try {
       const { user_id, quiz_id, score } = req.body; // Extrai user_id, quiz_id e score do corpo da requisição
@@ -74,13 +74,13 @@ exports.submitScore = async (req, res) => {
 
       console.log(`Registrando pontuação para user_id ${user_id}, quiz_id ${quiz_id}, pontuação ${score}.`);
 
-      // Chama o serviço para registrar a pontuação
+      // Chama o serviço para registar a pontuação
       await quizService.createScore(user_id, quiz_id, score); 
 
       res.status(201).json({ message: 'Pontuação registrada com sucesso.' });
   } catch (error) {
-      console.error('Erro ao registrar pontuação:', error.message); // Log do erro
-      res.status(500).json({ message: 'Erro ao registrar pontuação.', error: error.message });
+      console.error('Erro ao registar pontuação:', error.message); // Log do erro
+      res.status(500).json({ message: 'Erro ao registar pontuação.', error: error.message });
   }
 };
 
@@ -100,7 +100,7 @@ exports.getTopScores = async (req, res) => {
   }
 };
 
-// Responsável por obter estatísticas do usuário
+// Responsável por obter estatísticas do utilizador
 exports.getUserStats = async (req, res) => {
   try {
     const { user_id } = req.query; // Pega o user_id da query string
@@ -112,15 +112,15 @@ exports.getUserStats = async (req, res) => {
 
     console.log(`Buscando estatísticas para user_id: ${user_id}`); // Log para depuração
 
-    const stats = await quizService.getUserStats(user_id); // Chama o serviço para obter as estatísticas do usuário
+    const stats = await quizService.getUserStats(user_id); // Chama o serviço para obter as estatísticas do utilizador
     
     if (!stats) {
-      return res.status(404).json({ message: 'Nenhuma estatística encontrada para o usuário especificado.' });
+      return res.status(404).json({ message: 'Nenhuma estatística encontrada para o utilizador especificado.' });
     }
 
     res.status(200).json(stats); // Retorna uma resposta de sucesso com as estatísticas
   } catch (error) {
-    console.error('Erro ao obter estatísticas do usuário:', error.message); // Log do erro
-    res.status(500).json({ message: 'Erro ao obter estatísticas do usuário.', error: error.message });
+    console.error('Erro ao obter estatísticas do utilizador:', error.message); // Log do erro
+    res.status(500).json({ message: 'Erro ao obter estatísticas do utilizador.', error: error.message });
   }
 };

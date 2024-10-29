@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            console.log('Tentando registrar com dados:', { username, email, fullName });
+            console.log('A tentar registar com dados:', { username, email, fullName });
 
             const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/register', {
                 method: 'POST',
@@ -46,12 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(result.message);
                 window.location.href = '../login/login.html';
             } else {
-                console.error('Erro ao registrar:', result);
+                console.error('Erro ao registar:', result);
                 alert(`Erro: ${result.message ||'Erro inesperado'}`);
             }
         } catch (error) {
-            console.error('Erro ao tentar registrar:', error);
-            alert('Ocorreu um erro ao tentar registrar. Tente novamente mais tarde.');
+            console.error('Erro ao tentar registar:', error);
+            alert('Ocorreu um erro ao tentar registar. Tente novamente mais tarde.');
         }
     });
 });
@@ -82,7 +82,7 @@ function updatePageLanguage(lang) {
         } else {
             titleElement.innerText = 'Registo - Tackle Trivia';
             h2Element.innerText = 'Registo';
-            usernameLabel.innerText = 'Nome de Usuário';
+            usernameLabel.innerText = 'Nome de Utilizador';
             emailLabel.innerText = 'Email';
             fullNameLabel.innerText = 'Nome Completo';
             passwordLabel.innerText = 'Palavra-passe';

@@ -21,7 +21,7 @@ describe('API Tests', () => {
       .expect(201)
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.body.message).to.equal('Usuário registrado com sucesso. Verifique seu email para ativar sua conta.');
+        expect(res.body.message).to.equal('Utilizador registado com sucesso. Verifique seu email para ativar sua conta.');
         
         // Retrieve the verification token from the database
         db.query('SELECT verification_token FROM users WHERE email = ?', ['test@example.com'], (err, results) => {
@@ -100,7 +100,7 @@ describe('API Tests', () => {
       .expect(200)
       .end((err, res) => {
         if (err) return done(err);
-        expect(res.body.message).to.equal('Email para redefinição de senha enviado.');
+        expect(res.body.message).to.equal('Email para redefinição de palavra-passe enviado.');
         done();
       });
   });

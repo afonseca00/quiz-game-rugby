@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const userId = localStorage.getItem('userId'); // Obter o ID do usuário
+    const userId = localStorage.getItem('userId'); // Obter o ID do utilizador
 
-    // Atualizar informações do usuário
+    // Atualizar informações do utilizador
     document.getElementById('update-info-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Alterar senha do usuário
+    // Alterar password do utilizador
 document.getElementById('change-password-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -59,9 +59,9 @@ document.getElementById('change-password-form').addEventListener('submit', async
 
         const result = await response.json();
         if (response.ok) {
-            alert('Senha alterada com sucesso!');
+            alert('Palavra-passe alterada com sucesso!');
 
-            // Logout automático após a mudança de senha
+            // Logout automático após a mudança de palavra-passe
             localStorage.removeItem('token');
             localStorage.removeItem('userName');
             localStorage.removeItem('userId');
@@ -72,8 +72,8 @@ document.getElementById('change-password-form').addEventListener('submit', async
             alert(`Erro: ${result.message}`);
         }
     } catch (error) {
-        console.error('Erro ao alterar senha:', error);
-        alert('Erro ao alterar senha.');
+        console.error('Erro ao alterar palavra-passe:', error);
+        alert('Erro ao alterar palavra-passe.');
     }
 });
 
@@ -82,7 +82,7 @@ document.getElementById('change-password-form').addEventListener('submit', async
         localStorage.removeItem('token');
         localStorage.removeItem('userName');
         localStorage.removeItem('userId');
-        alert('Você foi desconectado.');
+        alert('Logout com sucesso.');
         window.location.href = '../login/login.html';
     });
 });

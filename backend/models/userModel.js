@@ -36,19 +36,19 @@ const User = {
 
   findByUsernameOrEmail: (identifier) => {
     return new Promise((resolve, reject) => {
-      console.log(`Buscando usuário com identifier: ${identifier}`);
+      console.log(`A produra do utilizador com identifier: ${identifier}`);
       db.query(
         'SELECT * FROM users WHERE username = ? OR email = ?',
         [identifier, identifier],
         (err, results) => {
           if (err) {
-            console.error('Erro ao buscar usuário por username ou email:', err);
+            console.error('Erro ao encontrar utilizador por username ou email:', err);
             return reject(err);
           }
           if (!results || results.length === 0) {
-            console.log('Nenhum usuário encontrado.');
+            console.log('Nenhum utilizador encontrado.');
           } else {
-            console.log('Usuário encontrado:', results[0]);
+            console.log('Utilizador encontrado:', results[0]);
           }
           resolve(results[0]);
         }
@@ -149,7 +149,7 @@ User.updateUserInfo = (user_id, fullName, email) => {
   });
 };
 
-// Buscar usuário por ID
+// Buscar utilizador por ID
 User.findById = (user_id) => {
   return new Promise((resolve, reject) => {
     db.query('SELECT * FROM users WHERE id = ?', [user_id], (err, results) => {
@@ -159,7 +159,7 @@ User.findById = (user_id) => {
   });
 };
 
-// Atualizar senha do usuário
+// Atualizar palavra-passe do utilizador
 User.updatePassword = (user_id, newPassword) => {
   return new Promise((resolve, reject) => {
     db.query('UPDATE users SET password = ? WHERE id = ?', [newPassword, user_id], (err, result) => {

@@ -4,8 +4,8 @@ require('dotenv').config(); // Carrega variáveis de ambiente do arquivo .env
 // Cria a conexão com a base de dados utilizando as variáveis de ambiente
 const db = mysql.createConnection({
   host: process.env.DB_HOST, // Host da base de dados
-  user: process.env.DB_USER, // Usuário da base de dados
-  password: process.env.DB_PASS, // Senha da base de dados
+  user: process.env.DB_USER, // Utilizador da base de dados
+  password: process.env.DB_PASS, // Palavra-passe da base de dados
   database: process.env.DB_NAME, // Nome da base de dados
   port: process.env.DB_PORT, // Porta da base de dados
 });

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para logout
     document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('token');
-        alert('Você foi desconectado.');
+        alert('Logout com sucesso.');
         window.location.href = '../login/login.html';
     });
 

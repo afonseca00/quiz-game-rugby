@@ -1,23 +1,23 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
-    const userName = localStorage.getItem('userName'); // Obter o nome do usuário do localStorage
+    const userName = localStorage.getItem('userName'); // Obter o nome do utilizador do localStorage
     const userId = localStorage.getItem('userId'); // Obter o userId do localStorage
 
-    // Verifica se o usuário está logado
+    // Verifica se o utilizador fez login
     if (!token || !userId) {
         alert('Você precisa fazer login primeiro!');
         window.location.href = '../login/login.html';
         return;
     }
 
-    // Definir o nome do usuário real no dashboard
+    // Definir o nome do utilizador real no dashboard
     if (userName) {
         document.getElementById('user-name').innerText = userName;
     } else {
         document.getElementById('user-name').innerText = 'Utilizador'; // Nome padrão se não houver nome armazenado
     }
 
-    // Chama o backend para obter as estatísticas do usuário
+    // Chama o backend para obter as estatísticas do utilizador
     try {
         const response = await fetch(`https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/user-stats?user_id=${userId}`, {
             headers: {
@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userName');  // Remove também o nome do usuário ao fazer logout
-        alert('Você foi desconectado.');
+        localStorage.removeItem('userName');  // Remove também o nome do utilizador ao fazer logout
+        alert('Logout com sucesso.');
         window.location.href = '../index/index.html';  // Redirecionar para index.html após logout
     });
 
@@ -135,7 +135,7 @@ function updateDashboardCards(lang) {
         totalPointsCard.innerText = 'Total Points';
     } else {
         totalQuizzesCard.innerText = 'Total de Quizzes';
-        currentRankingCard.innerText = 'Seu Ranking Atual';
+        currentRankingCard.innerText = 'Ranking Atual';
         totalPointsCard.innerText = 'Total de Pontos';
     }
 }

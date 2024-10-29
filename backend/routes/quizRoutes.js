@@ -8,13 +8,13 @@ router.get('/questions', quizController.getQuestions);
 // Rota para obter perguntas filtradas por categoria e idioma
 router.get('/questions-by-category', quizController.getQuestionsByCategory);
 
-// Rota para registrar a pontuação de um usuário
+// Rota para registar a pontuação de um utilizador
 router.post('/submit-score', quizController.submitScore);
 
 // Rota para obter as melhores pontuações
 router.get('/top-scores', quizController.getTopScores);
 
-// Rota para obter estatísticas do usuário (quizzes realizados e pontuação total)
+// Rota para obter estatísticas do utilizador (quizzes realizados e pontuação total)
 router.get('/user-stats', quizController.getUserStats);
 
 module.exports = router;

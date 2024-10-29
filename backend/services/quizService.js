@@ -36,7 +36,7 @@ exports.getQuestionsByCategoryAndLanguage = async (category_id, language) => {
   return exports.getAllQuestions(category_id, language); // Reutiliza a função acima
 };
 
-// Serviço para registrar a pontuação de um usuário
+// Serviço para registrar a pontuação de um Utilizador
 exports.createScore = async (user_id, quiz_id, score) => {
   return new Promise((resolve, reject) => {
     if (!user_id || !quiz_id || score === undefined) {
@@ -46,8 +46,8 @@ exports.createScore = async (user_id, quiz_id, score) => {
 
     Score.create(user_id, quiz_id, score, (err, result) => {
       if (err) {
-        console.error(`Erro ao registrar pontuação para user_id ${user_id}, quiz_id ${quiz_id}:`, err);
-        return reject(new Error('Erro ao registrar pontuação.'));
+        console.error(`Erro ao registar pontuação para user_id ${user_id}, quiz_id ${quiz_id}:`, err);
+        return reject(new Error('Erro ao registar pontuação.'));
       }
       resolve(result);
     });

@@ -18,7 +18,7 @@ router.get('/quiz/top-scores', quizController.getTopScores); // Rota para obter 
 // Atualizar informações pessoais
 router.put('/update-info', authController.updateUserInfo);
 
-// Alterar senha
+// Alterar palavra-passe
 router.put('/change-password', authController.changePassword);
 
 module.exports = router;
