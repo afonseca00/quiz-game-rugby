@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adicionando event listeners aos botões
     document.getElementById('ranking-btn').addEventListener('click', () => {
         // Redireciona para a página de ranking
-        window.location.href = '../ranking/ranking.html';
+        window.location.href = '../rankings/rankings.html';
     });
 
     document.getElementById('another-quiz-btn').addEventListener('click', () => {
