@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const scoreText = lang === 'en' ? `Your Final Score: ${score} points` : `Sua Pontuação Final: ${score} pontos`;
-    const scoreItem = <div class="score-item"><h3>${scoreText}</h3></div>;
+    const scoreItem = `<div class="score-item"><h3>${scoreText}</h3></div>`;
     summaryContainer.innerHTML += scoreItem;
 
     // Função para enviar pontuação para o servidor
