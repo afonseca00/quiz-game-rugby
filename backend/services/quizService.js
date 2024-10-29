@@ -9,9 +9,9 @@ exports.getAllQuestions = async (category_id, language) => {
       return reject(new Error('Categoria e idioma são obrigatórios.'));
     }
 
-    // Nova consulta diretamente na tabela 'questions', sem o JOIN com 'question_translations'
+    // Atualizando a consulta para incluir o campo video_url
     const query = `
-      SELECT question, correct_answer, option_1, option_2, option_3, explanation, quiz_id
+      SELECT question, correct_answer, option_1, option_2, option_3, explanation, video_url, quiz_id
       FROM questions
       WHERE category_id = ? AND language = ?;
     `;

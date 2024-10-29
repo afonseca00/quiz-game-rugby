@@ -18,12 +18,14 @@ exports.getQuestions = async (req, res) => {
 
     const questions = await quizService.getAllQuestions(category_id, language); // Passa o category_id e o idioma para o serviço
     
-    // Verifica se há perguntas retornadas
-    if (questions.length === 0) {
-      return res.status(404).json({ message: 'Nenhuma pergunta encontrada.' });
-    }
+    // Verifica se cada pergunta possui video_url
+    questions.forEach(question => {
+      if (!question.video_url) {
+        console.warn("Pergunta sem campo video_url:", question.question);
+      }
+    });
 
-    res.status(200).json(questions); // Retorna a resposta com as perguntas
+    res.status(200).json(questions); // Retorna as perguntas com video_url para o frontend
   } catch (error) {
     console.error('Erro ao buscar perguntas:', error.message); // Log do erro
     res.status(500).json({ message: 'Erro ao buscar perguntas.', error: error.message });
