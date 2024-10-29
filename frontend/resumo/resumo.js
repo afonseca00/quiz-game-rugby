@@ -161,4 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Você foi desconectado.');
         window.location.href = '../index/index.html';
     });
+
+    // Adicionando event listeners aos botões
+    document.getElementById('ranking-btn').addEventListener('click', () => {
+        // Redireciona para a página de ranking
+        window.location.href = '../ranking/ranking.html';
+    });
+
+    document.getElementById('another-quiz-btn').addEventListener('click', () => {
+        // Redireciona para a página de seleção de quiz
+        window.location.href = '../quiz-selector/quiz-selector.html';
+    });
 });
