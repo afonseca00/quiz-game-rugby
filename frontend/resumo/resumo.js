@@ -42,23 +42,31 @@ function updatePageLanguage(lang) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const score = localStorage.getItem('quizScore');
-    const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
-    let questions = JSON.parse(localStorage.getItem('quizQuestions'));
+// Função para converter uma URL de vídeo do formato "watch" para "embed"
+function convertToEmbedUrl(videoUrl) {
+    if (!videoUrl) return null;
 
-    console.log("Questões carregadas do localStorage:", questions);
-
-    if (!questions) {
-        console.error("Erro: Nenhuma questão encontrada no localStorage.");
-        return;
+    // Verifica se já está no formato embed
+    if (videoUrl.includes('youtube.com/embed')) {
+        return videoUrl.split('?')[0];
     }
 
-    // Simulação temporária para adicionar video_url a uma questão para teste
-    questions = questions.map((q) => ({
-        ...q,
-        video_url: q.video_url || "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // URL de exemplo se video_url estiver faltando
-    }));
+    // Converter URLs no formato "watch"
+    const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+    if (videoIdMatch) {
+        return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+    }
+
+    // Retorna null se o link não for válido
+    return null;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const questions = JSON.parse(localStorage.getItem('quizQuestions'));
+    const score = localStorage.getItem('quizScore');
+    const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
+
+    console.log("Questões carregadas do localStorage:", questions);
 
     const user_id = localStorage.getItem('userId');
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
@@ -76,17 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryContainer.innerHTML = '';
 
-    // Função para converter uma URL de vídeo do formato "watch" para "embed"
-    function convertToEmbedUrl(videoUrl) {
-        if (!videoUrl) return null;
-        if (videoUrl.includes('youtube.com/embed')) {
-            return videoUrl.split('?')[0];
-        }
-        const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-        return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
-    }
-
-    // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
         console.log("Objeto da questão:", q);
 
@@ -109,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
                </iframe>` : '<p>Vídeo não disponível</p>'}`;
-
+        
         const summaryItem = `
             <div class="summary-item">
                 <h3>Questão ${index + 1}: ${q.question}</h3>
