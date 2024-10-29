@@ -43,9 +43,9 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const questions = JSON.parse(localStorage.getItem('quizQuestions')) || [];
-    const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers')) || [];
-    const score = localStorage.getItem('quizScore') || 0;
+    const questions = JSON.parse(localStorage.getItem('quizQuestions'));
+    const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
+    const score = localStorage.getItem('quizScore');
 
     console.log("Questões carregadas do localStorage:", questions);
 
@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryContainer.innerHTML = '';
 
-    // Função para converter uma URL de vídeo para formato embed (caso necessário)
     function convertToEmbedUrl(videoUrl) {
         if (!videoUrl) return null;
         if (videoUrl.includes('youtube.com/embed')) {
@@ -77,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
     }
 
-    // Loop para gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
         const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
         console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
@@ -94,9 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
                <p>Explicação: ${q.explanation}</p>
                ${embedUrl ? `<iframe width="560" height="315" 
                    src="${embedUrl}" 
+                   sandbox="allow-scripts allow-forms" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                   allowfullscreen sandbox="allow-scripts">
+                   allowfullscreen>
                </iframe>` : '<p>Vídeo não disponível</p>'}`;
         
         const summaryItem = `
@@ -110,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
-    // Exibir a pontuação final no resumo
     const scoreItem = `
         <div class="score-item">
             <h3>Sua Pontuação Final: ${score} pontos</h3>
