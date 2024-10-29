@@ -43,7 +43,8 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const lang = localStorage.getItem('language') || 'pt';
+    // Configura o idioma da aplicação com base no valor armazenado no localStorage
+    const lang = localStorage.getItem('lang') || 'pt';
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const score = localStorage.getItem('quizScore');
@@ -55,9 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     summaryContainer.innerHTML = '';
 
+    // Define os textos dinâmicos para cada idioma
     const textContent = {
         pt: {
             summaryTitle: 'Resumo do Quiz',
+            questionPrefix: 'Questão',
             yourAnswer: 'Sua Resposta',
             correct: '✅ Correto',
             incorrect: '❌ Errado',
@@ -70,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         en: {
             summaryTitle: 'Quiz Summary',
+            questionPrefix: 'Question',
             yourAnswer: 'Your Answer',
             correct: '✅ Correct',
             incorrect: '❌ Incorrect',
@@ -84,8 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const labels = textContent[lang];
 
+    // Atualiza o título do resumo de acordo com o idioma
     document.querySelector('h2').textContent = labels.summaryTitle;
 
+    // Renderiza cada questão e sua resposta no resumo
     questions.forEach((q, index) => {
         const videoUrl = q.video_url ? q.video_url : null;
         const isCorrect = selectedAnswers[index] === q.correct_answer;
@@ -105,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const summaryItem = `
             <div class="summary-item">
-                <h3>Questão ${index + 1}: ${q.question}</h3>
+                <h3>${labels.questionPrefix} ${index + 1}: ${q.question}</h3>
                 <p>${labels.yourAnswer}: ${selectedAnswers[index]}</p>
                 <p>${resultText}</p>
                 ${explanation}
@@ -114,12 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
+    // Exibe a pontuação final
     const scoreItem = `
         <div class="score-item">
             <h3>${labels.finalScore}: ${score} pontos</h3>
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
+
+    // Define os textos dos botões de acordo com o idioma
+    document.getElementById('ranking-btn').textContent = labels.viewRanking;
+    document.getElementById('another-quiz-btn').textContent = labels.takeAnotherQuiz;
 
     // Função para enviar pontuação para o servidor
     async function submitScore(user_id, quiz_id, score) {
@@ -149,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Submeter pontuação
+    // Submete a pontuação
     const user_id = localStorage.getItem('userId');
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
@@ -167,10 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../index/index.html';
     });
 
-    document.getElementById('ranking-btn').textContent = labels.viewRanking;
-    document.getElementById('another-quiz-btn').textContent = labels.takeAnotherQuiz;
-
-    // Redirecionamentos
+    // Redirecionamentos para os botões de ação
     document.getElementById('ranking-btn').addEventListener('click', () => {
         window.location.href = '../rankings/rankings.html';
     });
