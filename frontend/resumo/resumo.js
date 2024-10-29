@@ -45,16 +45,27 @@ function updatePageLanguage(lang) {
 document.addEventListener('DOMContentLoaded', () => {
     const score = localStorage.getItem('quizScore');
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
-    const questions = JSON.parse(localStorage.getItem('quizQuestions'));
+    let questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
-    console.log("Questões carregadas do localStorage:", questions); // Verificação
+    console.log("Questões carregadas do localStorage:", questions);
 
     if (!questions) {
         console.error("Erro: Nenhuma questão encontrada no localStorage.");
         return;
     }
 
-    const user_id = localStorage.getItem('userId'); 
+    // Simulação temporária para adicionar video_url a uma questão para teste
+    questions = questions.map((q, index) => {
+        if (index === 0) {
+            return {
+                ...q,
+                video_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  // URL de exemplo
+            };
+        }
+        return q;
+    });
+
+    const user_id = localStorage.getItem('userId');
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
     if (!user_id || !quiz_id) {
@@ -73,31 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Função para converter uma URL de vídeo do formato "watch" para "embed"
     function convertToEmbedUrl(videoUrl) {
         if (!videoUrl) return null;
-
         if (videoUrl.includes('youtube.com/embed')) {
             return videoUrl.split('?')[0];
         }
-
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-        if (videoIdMatch) {
-            return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
-        }
-
-        return null;
+        return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
     }
 
     // Gerar o resumo das perguntas e respostas
     questions.forEach((q, index) => {
         console.log("Objeto da questão:", q);
 
-        // Verificar se o campo video_url está presente e é uma string válida
         const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
         console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
-        // Converter o URL do vídeo para o formato embed
         const embedUrl = convertToEmbedUrl(videoUrl);
         console.log('URL do vídeo convertido:', embedUrl);
 
@@ -111,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
                </iframe>` : '<p>Vídeo não disponível</p>'}`;
-        
+
         const summaryItem = `
             <div class="summary-item">
                 <h3>Questão ${index + 1}: ${q.question}</h3>
@@ -123,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
-    // Exibir a pontuação no resumo
     const scoreItem = `
         <div class="score-item">
             <h3>Sua Pontuação Final: ${score} pontos</h3>
@@ -131,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     summaryContainer.innerHTML += scoreItem;
 
-    // Submeter pontuação
     submitScore(questions, user_id, quiz_id, score);
 });
 
