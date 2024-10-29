@@ -1,6 +1,7 @@
 // Função específica para atualizar o conteúdo dinâmico da página de Login
 function updatePageLanguage(lang) {
-    console.log(`Atualizando idioma para: ${lang}`);  // Corrigir interpolação de string
+    console.log(`Atualizando idioma para: ${lang}`);
+    
     const titleElement = document.querySelector('title');
     const h2Element = document.querySelector('.login-content h2');
     const usernameLabel = document.querySelector('label[for="username"]');
@@ -70,18 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function convertToEmbedUrl(videoUrl) {
         if (!videoUrl) return null;
 
-        // Se a URL já estiver no formato embed, retorne-a
         if (videoUrl.includes('youtube.com/embed')) {
             return videoUrl.split('?')[0];
         }
 
-        // Se a URL estiver no formato "watch", converta para "embed"
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         if (videoIdMatch) {
             return `https://www.youtube.com/embed/${videoIdMatch[1]}`;
         }
 
-        // Se não for um link válido, retorne null
         return null;
     }
 
@@ -89,14 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
     questions.forEach((q, index) => {
         console.log("Objeto da questão:", q);
 
-        // Verificar se o campo video_url está presente
         const videoUrl = q.video_url || null;
         console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
-        // Converter o URL do vídeo para o formato embed
         const embedUrl = convertToEmbedUrl(videoUrl);
         console.log('URL do vídeo convertido:', embedUrl);
 
@@ -130,12 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     summaryContainer.innerHTML += scoreItem;
 
-
-    // Submeter pontuação
-    submitScore(questions, user_id, quiz_id, score);  // Corrigir a passagem de parâmetros
+    submitScore(user_id, quiz_id, score);  
 });
 
-async function submitScore(questions, user_id, quiz_id, score) {
+async function submitScore(user_id, quiz_id, score) {
     const payload = {
         user_id: user_id,
         quiz_id: quiz_id,
