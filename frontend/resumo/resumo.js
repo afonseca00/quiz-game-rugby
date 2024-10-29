@@ -1,29 +1,41 @@
-// Função para atualizar o conteúdo dinâmico da página de resumo com base no idioma
+// Função específica para atualizar o conteúdo dinâmico da página de Login
 function updatePageLanguage(lang) {
     console.log(`Atualizando idioma para: ${lang}`);
     const titleElement = document.querySelector('title');
-    const h2Element = document.querySelector('#quiz-summary h2');
-    const rankingButton = document.getElementById('ranking-btn');
-    const anotherQuizButton = document.getElementById('another-quiz-btn');
+    const h2Element = document.querySelector('.login-content h2');
+    const usernameLabel = document.querySelector('label[for="username"]');
+    const passwordLabel = document.querySelector('label[for="password"]');
+    const loginButton = document.querySelector('.btn-primary');
+    const forgotPasswordLink = document.querySelector('.forgot-password-link');
+    const registerParagraph = document.querySelector('.login-content p.register-link');
 
-    if (titleElement && h2Element && rankingButton && anotherQuizButton) {
+    if (titleElement && h2Element && usernameLabel && passwordLabel && loginButton && forgotPasswordLink && registerParagraph) {
         if (lang === 'en') {
-            titleElement.innerText = 'Quiz Summary - Tackle Trivia';
-            h2Element.innerText = 'Quiz Summary';
-            rankingButton.innerText = 'View Ranking';
-            anotherQuizButton.innerText = 'Take Another Quiz';
+            titleElement.innerText = 'Login - Tackle Trivia';
+            h2Element.innerText = 'Login';
+            usernameLabel.innerText = 'Username or Email';
+            passwordLabel.innerText = 'Password';
+            loginButton.innerText = 'Login';
+            forgotPasswordLink.innerText = 'Forgot Password?';
+            registerParagraph.innerHTML = `Don't have an account? <a href="../register/register.html">Register here</a>.`;
         } else {
-            titleElement.innerText = 'Resumo do Quiz - Tackle Trivia';
-            h2Element.innerText = 'Resumo do Quiz';
-            rankingButton.innerText = 'Ver Ranking';
-            anotherQuizButton.innerText = 'Fazer Outro Quiz';
+            titleElement.innerText = 'Login - Tackle Trivia';
+            h2Element.innerText = 'Entrar';
+            usernameLabel.innerText = 'User ou Email';
+            passwordLabel.innerText = 'Palavra-passe';
+            loginButton.innerText = 'Entrar';
+            forgotPasswordLink.innerText = 'Esqueceu-se da palavra-passe?';
+            registerParagraph.innerHTML = `Não tem uma conta? <a href="../register/register.html">Registe-se aqui</a>.`;
         }
 
         console.log('Conteúdo atualizado:', {
             title: titleElement.innerText,
-            header: h2Element.innerText,
-            rankingButton: rankingButton.innerText,
-            anotherQuizButton: anotherQuizButton.innerText,
+            h2: h2Element.innerText,
+            usernameLabel: usernameLabel.innerText,
+            passwordLabel: passwordLabel.innerText,
+            loginButton: loginButton.innerText,
+            forgotPasswordLink: forgotPasswordLink.innerText,
+            registerParagraph: registerParagraph.innerHTML
         });
     } else {
         console.error("Um ou mais elementos não foram encontrados.");
@@ -31,9 +43,6 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const lang = localStorage.getItem('language') || 'pt';  // Define o idioma padrão como 'pt' (português)
-    updatePageLanguage(lang);
-
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const score = localStorage.getItem('quizScore');
@@ -59,38 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function convertToEmbedUrl(videoUrl) {
         if (!videoUrl) return null;
+        if (videoUrl.includes('youtube.com/embed')) {
+            return videoUrl.split('?')[0];
+        }
+
         const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
         return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
     }
 
     questions.forEach((q, index) => {
         const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
+        console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
+
         const isCorrect = selectedAnswers[index] === q.correct_answer;
-        
-        const questionText = lang === 'en' ? `Question ${index + 1}` : `Questão ${index + 1}`;
-        const yourAnswerText = lang === 'en' ? 'Your Answer' : 'Sua Resposta';
-        const correctText = lang === 'en' ? '✅ Correct' : '✅ Correto';
-        const incorrectText = lang === 'en' ? '❌ Incorrect' : '❌ Errado';
-        const correctAnswerText = lang === 'en' ? 'Correct Answer' : 'Resposta Correta';
-        const explanationText = lang === 'en' ? 'Explanation' : 'Explicação';
-        
-        const resultText = isCorrect ? correctText : incorrectText;
+        const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
+
+        const embedUrl = convertToEmbedUrl(videoUrl);
+        console.log('URL do vídeo convertido:', embedUrl);
+
         const explanation = isCorrect
             ? ''
-            : `<p>${correctAnswerText}: ${q.correct_answer}</p>
-               <p>${explanationText}: ${q.explanation}</p>
-               ${videoUrl ? `<iframe width="560" height="315" 
-                   src="${convertToEmbedUrl(videoUrl)}" 
+            : `<p>Resposta Correta: ${q.correct_answer}</p>
+               <p>Explicação: ${q.explanation}</p>
+               ${embedUrl ? `<iframe width="560" height="315" 
+                   src="${embedUrl}" 
                    sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
-               </iframe>` : `<p>${lang === 'en' ? 'Video not available' : 'Vídeo não disponível'}</p>`}`;
-
+               </iframe>` : '<p>Vídeo não disponível</p>'}`;
+        
         const summaryItem = `
             <div class="summary-item">
-                <h3>${questionText}: ${q.question}</h3>
-                <p>${yourAnswerText}: ${selectedAnswers[index]}</p>
+                <h3>Questão ${index + 1}: ${q.question}</h3>
+                <p>Sua Resposta: ${selectedAnswers[index]}</p>
                 <p>${resultText}</p>
                 ${explanation}
             </div>
@@ -98,10 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
-    const finalScoreText = lang === 'en' ? 'Your Final Score' : 'Sua Pontuação Final';
     const scoreItem = `
         <div class="score-item">
-            <h3>${finalScoreText}: ${score} ${lang === 'en' ? 'points' : 'pontos'}</h3>
+            <h3>Sua Pontuação Final: ${score} pontos</h3>
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
@@ -148,16 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
-        alert(lang === 'en' ? 'You have been logged out.' : 'Você foi desconectado.');
+        alert('Você foi desconectado.');
         window.location.href = '../index/index.html';
     });
 
     // Adicionando event listeners aos botões
     document.getElementById('ranking-btn').addEventListener('click', () => {
+        // Redireciona para a página de ranking
         window.location.href = '../rankings/rankings.html';
     });
 
     document.getElementById('another-quiz-btn').addEventListener('click', () => {
+        // Redireciona para a página de seleção de quiz
         window.location.href = '../quiz-selector/quiz-selector.html';
     });
 });
