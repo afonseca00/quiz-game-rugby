@@ -43,10 +43,10 @@ function updatePageLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('language') || 'pt';
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const score = localStorage.getItem('quizScore');
-    const lang = localStorage.getItem('language') || 'pt'; // Assume 'pt' como padrão
 
     const summaryContainer = document.getElementById('summary-container');
     if (!summaryContainer) {
@@ -55,45 +55,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     summaryContainer.innerHTML = '';
 
-    function convertToEmbedUrl(videoUrl) {
-        if (!videoUrl) return null;
-        if (videoUrl.includes('youtube.com/embed')) {
-            return videoUrl.split('?')[0];
+    const textContent = {
+        pt: {
+            summaryTitle: 'Resumo do Quiz',
+            yourAnswer: 'Sua Resposta',
+            correct: '✅ Correto',
+            incorrect: '❌ Errado',
+            correctAnswer: 'Resposta Correta',
+            explanation: 'Explicação',
+            finalScore: 'Sua Pontuação Final',
+            viewRanking: 'Ver Ranking',
+            takeAnotherQuiz: 'Fazer Outro Quiz',
+            videoNotAvailable: 'Vídeo não disponível'
+        },
+        en: {
+            summaryTitle: 'Quiz Summary',
+            yourAnswer: 'Your Answer',
+            correct: '✅ Correct',
+            incorrect: '❌ Incorrect',
+            correctAnswer: 'Correct Answer',
+            explanation: 'Explanation',
+            finalScore: 'Your Final Score',
+            viewRanking: 'View Ranking',
+            takeAnotherQuiz: 'Take Another Quiz',
+            videoNotAvailable: 'Video not available'
         }
-        const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
-        return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
-    }
+    };
+
+    const labels = textContent[lang];
+
+    document.querySelector('h2').textContent = labels.summaryTitle;
 
     questions.forEach((q, index) => {
-        const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
+        const videoUrl = q.video_url ? q.video_url : null;
         const isCorrect = selectedAnswers[index] === q.correct_answer;
-        
-        const questionText = lang === 'en' ? `Question ${index + 1}` : `Questão ${index + 1}`;
-        const yourAnswerText = lang === 'en' ? 'Your Answer' : 'Sua Resposta';
-        const correctText = lang === 'en' ? '✅ Correct' : '✅ Correto';
-        const incorrectText = lang === 'en' ? '❌ Incorrect' : '❌ Errado';
-        const correctAnswerText = lang === 'en' ? 'Correct Answer' : 'Resposta Correta';
-        const explanationText = lang === 'en' ? 'Explanation' : 'Explicação';
-
-        const resultText = isCorrect ? correctText : incorrectText;
-        const embedUrl = convertToEmbedUrl(videoUrl);
+        const resultText = isCorrect ? labels.correct : labels.incorrect;
 
         const explanation = isCorrect
             ? ''
-            : `<p>${correctAnswerText}: ${q.correct_answer}</p>
-               <p>${explanationText}: ${q.explanation}</p>
-               ${embedUrl ? `<iframe width="560" height="315" 
-                   src="${embedUrl}" 
+            : `<p>${labels.correctAnswer}: ${q.correct_answer}</p>
+               <p>${labels.explanation}: ${q.explanation}</p>
+               ${videoUrl ? `<iframe width="560" height="315" 
+                   src="${videoUrl}" 
                    sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
-               </iframe>` : `<p>${lang === 'en' ? 'Video not available' : 'Vídeo não disponível'}</p>`}`;
+               </iframe>` : <p>${labels.videoNotAvailable}</p>}`;
 
         const summaryItem = `
             <div class="summary-item">
-                <h3>${questionText}: ${q.question}</h3>
-                <p>${yourAnswerText}: ${selectedAnswers[index]}</p>
+                <h3>Questão ${index + 1}: ${q.question}</h3>
+                <p>${labels.yourAnswer}: ${selectedAnswers[index]}</p>
                 <p>${resultText}</p>
                 ${explanation}
             </div>
@@ -101,41 +114,49 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
-    const finalScoreText = lang === 'en' ? 'Your Final Score' : 'Sua Pontuação Final';
     const scoreItem = `
         <div class="score-item">
-            <h3>${finalScoreText}: ${score} ${lang === 'en' ? 'points' : 'pontos'}</h3>
+            <h3>${labels.finalScore}: ${score} pontos</h3>
         </div>
     `;
     summaryContainer.innerHTML += scoreItem;
 
-    // Função para enviar pontuação para o servidor (permanece igual)
+    // Função para enviar pontuação para o servidor
     async function submitScore(user_id, quiz_id, score) {
-        const payload = { user_id, quiz_id, score };
+        const payload = {
+            user_id: user_id,
+            quiz_id: quiz_id,
+            score: score
+        };
+
         try {
             const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/submit-score', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(payload)
             });
+
             const data = await response.json();
             if (response.ok) {
-                console.log(lang === 'en' ? 'Score submitted successfully!' : 'Pontuação enviada com sucesso!', data);
+                console.log('Pontuação enviada com sucesso!', data);
             } else {
-                console.error(lang === 'en' ? 'Error submitting score:' : 'Erro ao enviar pontuação:', data.error);
+                console.error('Erro ao enviar pontuação:', data.error);
             }
         } catch (error) {
-            console.error(lang === 'en' ? 'Error submitting score:' : 'Erro ao enviar pontuação:', error);
+            console.error('Erro ao enviar pontuação:', error);
         }
     }
 
+    // Submeter pontuação
     const user_id = localStorage.getItem('userId');
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
 
     if (user_id && quiz_id) {
         submitScore(user_id, quiz_id, score);
     } else {
-        console.error(lang === 'en' ? 'Error: user_id or quiz_id not found in localStorage.' : 'Erro: user_id ou quiz_id não encontrados no localStorage.');
+        console.error('Erro: user_id ou quiz_id não encontrados no localStorage.');
     }
 
     // Função de logout
@@ -146,15 +167,15 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '../index/index.html';
     });
 
-  
-  document.getElementById('ranking-btn').innerText = lang === 'en' ? 'View Ranking' : 'Ver Ranking';
-  document.getElementById('another-quiz-btn').innerText = lang === 'en' ? 'Take Another Quiz' : 'Fazer Outro Quiz';
+    document.getElementById('ranking-btn').textContent = labels.viewRanking;
+    document.getElementById('another-quiz-btn').textContent = labels.takeAnotherQuiz;
 
-  // Event listeners para os botões
-  document.getElementById('ranking-btn').addEventListener('click', () => {
-      window.location.href = '../rankings/rankings.html';
-  });
-  document.getElementById('another-quiz-btn').addEventListener('click', () => {
-      window.location.href = '../quiz-selector/quiz-selector.html';
-  });
+    // Redirecionamentos
+    document.getElementById('ranking-btn').addEventListener('click', () => {
+        window.location.href = '../rankings/rankings.html';
+    });
+
+    document.getElementById('another-quiz-btn').addEventListener('click', () => {
+        window.location.href = '../quiz-selector/quiz-selector.html';
+    });
 });
