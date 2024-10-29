@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                <p>Explicação: ${q.explanation}</p>
                ${embedUrl ? `<iframe width="560" height="315" 
                    src="${embedUrl}" 
-                   sandbox="allow-scripts allow-same-origin allow-forms" 
+                   sandbox="allow-scripts allow-same-origin allow-forms allow-presentation" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
