@@ -1,7 +1,6 @@
 // Função específica para atualizar o conteúdo dinâmico da página de Login
 function updatePageLanguage(lang) {
     console.log(`Atualizando idioma para: ${lang}`);
-    
     const titleElement = document.querySelector('title');
     const h2Element = document.querySelector('.login-content h2');
     const usernameLabel = document.querySelector('label[for="username"]');
@@ -10,7 +9,6 @@ function updatePageLanguage(lang) {
     const forgotPasswordLink = document.querySelector('.forgot-password-link');
     const registerParagraph = document.querySelector('.login-content p.register-link');
 
-    // Atualizar o conteúdo da página com base no idioma selecionado
     if (titleElement && h2Element && usernameLabel && passwordLabel && loginButton && forgotPasswordLink && registerParagraph) {
         if (lang === 'en') {
             titleElement.innerText = 'Login - Tackle Trivia';
@@ -49,7 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
 
-    console.log("Questões carregadas do localStorage:", questions);
+    console.log("Questões carregadas do localStorage:", questions); // Verificação
+
+    if (!questions) {
+        console.error("Erro: Nenhuma questão encontrada no localStorage.");
+        return;
+    }
 
     const user_id = localStorage.getItem('userId'); 
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
@@ -87,12 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
     questions.forEach((q, index) => {
         console.log("Objeto da questão:", q);
 
-        const videoUrl = q.video_url || null;
+        // Verificar se o campo video_url está presente e é uma string válida
+        const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
         console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
+        // Converter o URL do vídeo para o formato embed
         const embedUrl = convertToEmbedUrl(videoUrl);
         console.log('URL do vídeo convertido:', embedUrl);
 
@@ -126,10 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     summaryContainer.innerHTML += scoreItem;
 
-    submitScore(user_id, quiz_id, score);  
+    // Submeter pontuação
+    submitScore(questions, user_id, quiz_id, score);
 });
 
-async function submitScore(user_id, quiz_id, score) {
+async function submitScore(questions, user_id, quiz_id, score) {
     const payload = {
         user_id: user_id,
         quiz_id: quiz_id,
