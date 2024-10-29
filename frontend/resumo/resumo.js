@@ -44,18 +44,20 @@ function updatePageLanguage(lang) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const questions = JSON.parse(localStorage.getItem('quizQuestions'));
-    const score = localStorage.getItem('quizScore');
     const selectedAnswers = JSON.parse(localStorage.getItem('quizAnswers'));
+    const score = localStorage.getItem('quizScore');
 
     console.log("Questões carregadas do localStorage:", questions);
 
-    const user_id = localStorage.getItem('userId');
-    const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
-
-    if (!user_id || !quiz_id) {
-        console.error('Erro: user_id ou quiz_id não encontrados no localStorage.');
-        return;
-    }
+    // Verificação de cada questão carregada para garantir que tenha o video_url
+    questions.forEach((q) => {
+        console.log("Verificando dados carregados da questão:", q);
+        if (!q.video_url) {
+            console.warn("A questão não contém um video_url:", q.question);
+        } else {
+            console.log("URL do vídeo:", q.video_url);
+        }
+    });
 
     const summaryContainer = document.getElementById('summary-container');
     if (!summaryContainer) {
@@ -65,21 +67,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryContainer.innerHTML = '';
 
-    questions.forEach((q, index) => {
-        console.log("Objeto da questão:", q);
+    // Função para converter uma URL de vídeo para formato embed (caso necessário)
+    function convertToEmbedUrl(videoUrl) {
+        if (!videoUrl) return null;
+        if (videoUrl.includes('youtube.com/embed')) {
+            return videoUrl.split('?')[0];
+        }
 
+        const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]+)/);
+        return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
+    }
+
+    // Loop para gerar o resumo das perguntas e respostas
+    questions.forEach((q, index) => {
         const videoUrl = q.video_url && typeof q.video_url === 'string' ? q.video_url : null;
         console.log("URL do vídeo:", videoUrl ? videoUrl : "Campo video_url não disponível");
 
         const isCorrect = selectedAnswers[index] === q.correct_answer;
         const resultText = isCorrect ? '✅ Correto' : '❌ Errado';
 
+        const embedUrl = convertToEmbedUrl(videoUrl);
+        console.log('URL do vídeo convertido:', embedUrl);
+
         const explanation = isCorrect
             ? ''
             : `<p>Resposta Correta: ${q.correct_answer}</p>
                <p>Explicação: ${q.explanation}</p>
-               ${videoUrl ? `<iframe width="560" height="315" 
-                   src="${videoUrl}" 
+               ${embedUrl ? `<iframe width="560" height="315" 
+                   src="${embedUrl}" 
                    frameborder="0" 
                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                    allowfullscreen>
@@ -96,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         summaryContainer.innerHTML += summaryItem;
     });
 
+    // Exibir a pontuação final no resumo
     const scoreItem = `
         <div class="score-item">
             <h3>Sua Pontuação Final: ${score} pontos</h3>
@@ -103,39 +119,49 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     summaryContainer.innerHTML += scoreItem;
 
-    submitScore(questions, user_id, quiz_id, score);
-});
+    // Função para enviar pontuação para o servidor
+    async function submitScore(questions, user_id, quiz_id, score) {
+        const payload = {
+            user_id: user_id,
+            quiz_id: quiz_id,
+            score: score
+        };
 
-async function submitScore(questions, user_id, quiz_id, score) {
-    const payload = {
-        user_id: user_id,
-        quiz_id: quiz_id,
-        score: score
-    };
+        try {
+            const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/submit-score', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
 
-    try {
-        const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/quiz/submit-score', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            console.log('Pontuação enviada com sucesso!', data);
-        } else {
-            console.error('Erro ao enviar pontuação:', data.error);
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Pontuação enviada com sucesso!', data);
+            } else {
+                console.error('Erro ao enviar pontuação:', data.error);
+            }
+        } catch (error) {
+            console.error('Erro ao enviar pontuação:', error);
         }
-    } catch (error) {
-        console.error('Erro ao enviar pontuação:', error);
     }
-}
 
-document.getElementById('logout-btn').addEventListener('click', () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    alert('Você foi desconectado.');
-    window.location.href = '../index/index.html';
+    // Submeter pontuação
+    const user_id = localStorage.getItem('userId');
+    const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
+
+    if (user_id && quiz_id) {
+        submitScore(questions, user_id, quiz_id, score);
+    } else {
+        console.error('Erro: user_id ou quiz_id não encontrados no localStorage.');
+    }
+
+    // Função de logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        alert('Você foi desconectado.');
+        window.location.href = '../index/index.html';
+    });
 });
