@@ -55,15 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Simulação temporária para adicionar video_url a uma questão para teste
-    questions = questions.map((q, index) => {
-        if (index === 0) {
-            return {
-                ...q,
-                video_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  // URL de exemplo
-            };
-        }
-        return q;
-    });
+    questions = questions.map((q) => ({
+        ...q,
+        video_url: q.video_url || "https://www.youtube.com/watch?v=dQw4w9WgXcQ" // URL de exemplo se video_url estiver faltando
+    }));
 
     const user_id = localStorage.getItem('userId');
     const quiz_id = questions.length > 0 ? questions[0].quiz_id : null;
