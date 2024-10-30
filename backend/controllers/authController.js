@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
     console.log('Tentando registar utilizador:', { username, email, fullName });
 
     if (!isPasswordStrong(password)) {
-      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.' });
+      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo (@$!%?&).' });
     }
 
     // Verificar se o email já está em uso
@@ -124,7 +124,7 @@ exports.resetPassword = async (req, res) => {
     }
 
     if (!isPasswordStrong(password)) {
-      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.' });
+      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo (@$!%?&).' });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
@@ -191,7 +191,7 @@ exports.changePassword = async (req, res) => {
     }
 
     if (!isPasswordStrong(password)) {
-      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.' });
+      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo (@$!%?&).' });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
