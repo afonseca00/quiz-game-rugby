@@ -6,7 +6,7 @@ const sendVerificationEmail = require('../services/emailService').sendVerificati
 const sendPasswordResetEmail = require('../services/emailService').sendPasswordResetEmail;
 
 function isPasswordStrong(password) {
-  const regex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
   return regex.test(password);
 }
 
