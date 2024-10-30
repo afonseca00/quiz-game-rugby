@@ -28,6 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (!isPasswordStrong(password)) {
+            alert('A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.');
+            return;
+        }
+
         try {
             console.log('A tentar registar com dados:', { username, email, fullName });
 
@@ -55,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+function isPasswordStrong(password) {
+    const regex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+    return regex.test(password);
+}
 
 function updatePageLanguage(lang) {
     const titleElement = document.querySelector('title');

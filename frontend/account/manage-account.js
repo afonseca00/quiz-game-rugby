@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function isPasswordStrong(password) {
+        const regex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+        return regex.test(password);
+    }
+
     // Alterar password do utilizador
 document.getElementById('change-password-form').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -41,6 +46,11 @@ document.getElementById('change-password-form').addEventListener('submit', async
     // Verifica se os campos estão preenchidos corretamente
     if (!userId || !currentPassword || !newPassword) {
         alert('Todos os campos são obrigatórios.');
+        return;
+    }
+
+    if (!isPasswordStrong(newPassword)) {
+        alert('A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.');
         return;
     }
 

@@ -5,10 +5,19 @@ const jwt = require('jsonwebtoken');
 const sendVerificationEmail = require('../services/emailService').sendVerificationEmail;
 const sendPasswordResetEmail = require('../services/emailService').sendPasswordResetEmail;
 
+function isPasswordStrong(password) {
+  const regex = /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+  return regex.test(password);
+}
+
 exports.register = async (req, res) => {
   const { username, email, password, fullName } = req.body;
   try {
     console.log('Tentando registar utilizador:', { username, email, fullName });
+
+    if (!isPasswordStrong(password)) {
+      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.' });
+    }
 
     // Verificar se o email já está em uso
     const emailExists = await User.findByEmail(email);
@@ -114,6 +123,10 @@ exports.resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'Token inválido ou expirado.' });
     }
 
+    if (!isPasswordStrong(password)) {
+      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.' });
+    }
+
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.updatePassword(user.id, hashedPassword);
 
@@ -175,6 +188,10 @@ exports.changePassword = async (req, res) => {
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Palavra-passe atual incorreta.' });
+    }
+
+    if (!isPasswordStrong(password)) {
+      return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo.' });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
