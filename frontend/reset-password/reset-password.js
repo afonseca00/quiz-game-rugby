@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return urlParams.get('token'); // Obtém o token da URL
     }
 
+    /*function isPasswordStrong(password) {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+        return regex.test(password);
+    }*/
+
     const token = getTokenFromUrl();
     if (!token) {
         alert('Token de redefinição de palavra-passe não encontrado.');
@@ -22,10 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!isPasswordStrong(newPassword)) {
+        /*if (!isPasswordStrong(newPassword)) {
             alert('A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo (@$!%?&).');
             return;
-        }
+        }*/
 
         try {
             const response = await fetch('https://quiz-game-rugby-ecdkbfh6ecgycybh.canadacentral-01.azurewebsites.net/api/auth/reset-password', {
@@ -53,8 +58,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-function isPasswordStrong(password) {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
-    return regex.test(password);
-}

@@ -123,9 +123,9 @@ exports.resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'Token inválido ou expirado.' });
     }
 
-    if (!isPasswordStrong(password)) {
+    /*if (!isPasswordStrong(password)) {
       return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo (@$!%?&).' });
-    }
+    }*/
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.updatePassword(user.id, hashedPassword);
@@ -190,9 +190,9 @@ exports.changePassword = async (req, res) => {
       return res.status(401).json({ message: 'Palavra-passe atual incorreta.' });
     }
 
-    if (!isPasswordStrong(password)) {
+    /*if (!isPasswordStrong(password)) {
       return res.status(400).json({ message: 'A palavra-passe deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma letra minúscula, um número e um símbolo (@$!%?&).' });
-    }
+    }*/
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.updatePassword(user_id, hashedPassword);
